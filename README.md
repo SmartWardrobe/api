@@ -27,6 +27,9 @@ Flask ile yazilan Api(Web service).
  $ virtualenv venv                            # create virtual enviroment
  $ source venv/bin/activate                   # actived virtual environment
  (venv)$ pip install -r requirements.txt      # download requirement packages.
+ $ cd my_flask_mysql_connector                # changed active directory to submodule repo
+ $ git submodule init
+ $ git submodule update                       # update to submodule
  (venv)$ python api.py                        # Run App.
  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 ```
