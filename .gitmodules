@@ -1,0 +1,3 @@
+[submodule "my_flask_mysql_connector"]
+	path = my_flask_mysql_connector
+	url = https://github.com/pleycpl/my_flask_mysql_connector.git
