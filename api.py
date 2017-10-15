@@ -3,6 +3,14 @@
 # "jsonify" paketi ise "api" ye gelen isteklere json formatinda data gondermek icin.
 from flask import Flask, request, jsonify
 
+# Database Class ile veri tabani ayarlari ayarlaniyor.
+# query() metodu ise SQL komutlarini calistirip, sonuclari aliyor.
+# query() icinde connection cursor islemleri gerceklesiyor, otamatik kapatiliyor.
+# Daha fazla bilgi icin kod burda: https://github.com/pleycpl/my_flask_mysql_connector 
+# Ya da flask_mysql paketi daha avantajli olabilir. Arastirmak lazim.
+from my_flask_mysql_connector.MysqlDb import Database
+mysql = Database("localhost", 3306, "root", "", "testdb")
+
 # Flask uygulamasini instance i olusturulur.
 app=Flask(__name__)
 
@@ -10,6 +18,9 @@ app=Flask(__name__)
 # "/" router'ina istek geldiginde api'nin ayakta oldugu anlamak icin kullandik.
 @app.route("/")
 def hello():
+    # Burda mysql istek atiyor, ver donun cevap print ediliyor.
+    results = mysql.query("Select version();")
+    print(results)
     return "Ayaktayim, yikilmadim."
 
 # "/api/signwebform" router'ina web form dan "action" kismindan gelen istekleri karsilamak icin kullandik.
