@@ -25,14 +25,14 @@ Flask ile yazilan Api(Web service).
  $ git clone https://github.com/erginipekci7/api-flask  # First download repo
  $ cd api-flask                               # changed active directory to repo
  $ virtualenv venv                            # create virtual enviroment
- $ source venv/bin/active                     # actived virtual environment
+ $ source venv/bin/activate                   # actived virtual environment
  (venv)$ pip install -r requirements.txt      # download requirement packages.
  (venv)$ python api.py                        # Run App.
  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 ```
 
 
-# Kurulm - Test Api
+# Kurulum - Test Api
 
 ```bash
  $ cd api-flask                               # changed active directory to repo
