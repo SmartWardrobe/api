@@ -26,7 +26,7 @@ def sign():
 # Api'ye istek ya ionic'ten atarsin ya da ayri bir flask uygulamasindan.
 # Suanlik ayri flask uygulamasindan "requests" paketiyle post,put,get,delete istegi aticaz. Ionic'le test etmek biraz daha ugrastirici suanlik.
 # Ve ilerde mysql'de deneme yaparsiniz. Suanlik static kullanim yapin.
-# Bir ileri adimda Authorization
+# Bir ileri adimda Authorization yapilacak.
 
 # REST API mantigi, CRUD islemlerini methodlarla ayirmak.
 # GET       - READ  islemleri
@@ -44,23 +44,20 @@ def create_user():
 # "/api/user/ergin" veya "/api/user/tugce" normal istek atilir(GET). Ve user nin bilgileri istek atilana geri dondurulur.
 @app.route("/api/user/<string:username>", methods=["GET"])
 def get_user_information(username):
-    # Read islemi
     print("Okunacak username: ", username)
     return jsonify({"status": "okey", "data": "..."})
 
 # "/api/user/ergin" istek atilir ama istegin icinde json olur. Cunku Update islemi gerceklestiriliyor.
 @app.route("/api/user/<string:username>", methods=["PUT"])
 def update_user_information(username):
-    data = request.get_json()
+    data = request.get_json()           # Json datasi istegin icinden alinir.
     print(data)
-    # Update islemi
     print("Guncellenecek username: ", username, " Ve degistirilecek data: ", data)
     return jsonify({"status": "okey", "data": "..."})
 
 # "/api/user/ergin" istek atilir. Ve dlete islemi gerceklesir.
 @app.route("/api/user/<string:username>", methods=["DELETE"])
 def delete_user(username):
-    # delete islemi
     print("Silinecek username: ", username)
     return jsonify({"status": "okey"})
 
