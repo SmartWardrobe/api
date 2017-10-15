@@ -44,9 +44,12 @@ Flask ile yazilan Api(Web service).
 ```
 
 # Test
-<p>Burda Test Api'ye istek atiyoruz ki, asil api'ye test istekleri atsin. </p>
+<p>Burda Test Api'ye istek atiyoruz ki, asil api'ye test istekleri atsin. Tool olarak api-test'i yonlendiriyoruz.</p>
 
 
 ```bash
- $ curl localhost:5001/user/ergin
+ $ curl localhost:5001/create_user
+ $ curl localhost:5001/user/ergin/get
+ $ curl localhost:5001/user/ergin/put
+ $ curl localhost:5001/user/ergin/delete
 ```
