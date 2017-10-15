@@ -24,7 +24,8 @@ def sign():
 
 # Asil Api asagidaki kodlardan sonra basliyor.
 # Api'ye istek ya ionic'ten atarsin ya da ayri bir flask uygulamasindan.
-# Suanlik ayri flask uygulamasindan "requests" paketiyle post,put,get,delete istegi aticaz. Ionic'le test etmek biraz daha ugrastirici suanlik.
+# Suanlik ayri flask uygulamasindan "requests" paketiyle post,put,get,delete istegi aticaz.
+# Ionic'le test etmek biraz daha ugrastirici suanlik.
 # Ve ilerde mysql'de deneme yaparsiniz. Suanlik static kullanim yapin.
 # Bir ileri adimda Authorization yapilacak.
 
@@ -39,12 +40,14 @@ def sign():
 def create_user():
     data = request.get_json()           # Json datasi istegin icinden alinir.
     print(data)
-    return jsonify({"status": "okey"})
+    # Burda bu data ile mysql user eklenir, basarisiz ise status degistirilir.
+    return jsonify({"status": "okey", "content": "User olusturdum."})
 
 # "/api/user/ergin" veya "/api/user/tugce" normal istek atilir(GET). Ve user nin bilgileri istek atilana geri dondurulur.
 @app.route("/api/user/<string:username>", methods=["GET"])
 def get_user_information(username):
     print("Okunacak username: ", username)
+    # Burda username ile mysql den data aliriz, ve istek atana json formatin da gondeririz.
     return jsonify({"status": "okey", "data": "..."})
 
 # "/api/user/ergin" istek atilir ama istegin icinde json olur. Cunku Update islemi gerceklestiriliyor.
@@ -53,12 +56,14 @@ def update_user_information(username):
     data = request.get_json()           # Json datasi istegin icinden alinir.
     print(data)
     print("Guncellenecek username: ", username, " Ve degistirilecek data: ", data)
+    # Mysql islemleri
     return jsonify({"status": "okey", "data": "..."})
 
 # "/api/user/ergin" istek atilir. Ve dlete islemi gerceklesir.
 @app.route("/api/user/<string:username>", methods=["DELETE"])
 def delete_user(username):
     print("Silinecek username: ", username)
+    # Mysql islemleri
     return jsonify({"status": "okey"})
 
 if __name__ == "__main__":
