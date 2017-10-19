@@ -19,6 +19,7 @@ def create_user_with_api():
     headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
     data = {
         "username": "tugce",
+        "fullname": "Tugce Cetınkaya",
         "email": "tugce@tugce.com",
         "password": "123456"
     }
@@ -27,7 +28,11 @@ def create_user_with_api():
     if responseJson["status"] == "okey":
         print("Status okey geldi.")
         return "200"
-    return "400"
+    elif responseJson["status"] == "error":
+        print("Status error geldi.")
+        return "400"
+
+    return "500"
 
 # Api'ye get istegi atiliyor, ionic'ten atiliyormus gibi.
 @app.route("/user/<string:username>/get")
@@ -35,8 +40,14 @@ def get_user_info_from_api(username):
     url = "http://localhost:5000/api/user/" + str(username)
     headers = {'Content-type': 'text/html', 'Accept': 'application/json'}
     r = requests.get(url, headers=headers)
-    print(r.json()) # <class 'dict'> tipinde
-    return str(r.status_code)
+    rJson = r.json()
+    print(rJson)                        # <class 'dict'> tipinde
+    if rJson['status'] == 'okey':
+        return str(rJson['data'])
+    elif rJson['status'] == 'error':
+        return "404"
+
+    return "default"
 
 # Api'ye get istegi atiliyor, ionic'ten atiliyormus gibi.
 @app.route("/user/<string:username>/put")
@@ -44,17 +55,20 @@ def update_user_info_with_api(username):
     url = "http://localhost:5000/api/user/" + str(username)
     headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
     newdata = {
-        "username": "tugce",
-        "email": "tugce____asdaksdjasjd@tugce.com",
-        "password": "12345678"
+        "username": "tugce789",
+        "fullname": "Tugce Cetınkaya",
+        "email": "yenitugce@tugce.com",
+        "password": "123qweadf"
     }
     r = requests.put(url, data=json.dumps(newdata), headers=headers)
     rJson = r.json()
-    print(rJson)
-    if rJson["status"] == "okey":
-        print("Status okey geldi.")
-        return "200"
-    return str(r.status_code)
+    print(rJson)                        # <class 'dict'> tipinde
+    if rJson['status'] == 'okey':
+        return str(rJson['data'])
+    elif rJson['status'] == 'error':
+        return "404"
+
+    return "default"
 
 # Api'ye get istegi atiliyor, ionic'ten atiliyormus gibi.
 @app.route("/user/<string:username>/delete")
@@ -62,8 +76,14 @@ def delete_user_info_with_api(username):
     url = "http://localhost:5000/api/user/" + str(username)
     headers = {'Content-type': 'text/html', 'Accept': 'application/json'}
     r = requests.delete(url, headers=headers)
-    print(r.json()) # <class 'dict'> tipinde
-    return str(r.status_code)
+    rJson = r.json()
+    print(rJson)                        # <class 'dict'> tipinde
+    if rJson['status'] == 'okey':
+        return str(rJson['content'])
+    elif rJson['status'] == 'error':
+        return "404"
+
+    return "default"
 
 if __name__ == "__main__":
     app.run(port=5001)
