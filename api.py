@@ -9,8 +9,7 @@ from flask import Flask, request, jsonify
 # Daha fazla bilgi icin kod burda: https://github.com/pleycpl/my_flask_mysql_connector 
 # Ya da flask_mysql paketi daha avantajli olabilir. Arastirmak lazim.
 from my_flask_mysql_connector.MysqlDb import Database
-mysql = Database("localhost", 3306, "root", "", "testdb")
-
+mysql = Database("localhost", 3306, "root", "nezahat123", "login_data")
 # Flask uygulamasini instance i olusturulur.
 app=Flask(__name__)
 
@@ -22,6 +21,29 @@ def hello():
     results = mysql.query("Select version();")
     print(results)
     return "Ayaktayim, yikilmadim."
+
+@app.route("/api/mysql_init")
+def init_mysql():
+    sql="""
+    DROP TABLE IF EXISTS `user`;
+    CREATE TABLE `user` (
+    `userid` int(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(100) DEFAULT NULL,
+    `password` varchar(100) DEFAULT NULL,
+    `email` varchar(100) DEFAULT NULL UNIQUE,
+    PRIMARY KEY (`userid`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+    """
+    sql2="""
+    LOCK TABLES `user` WRITE;
+    INSERT INTO `user` VALUES('tugce1','12345','tugce@gmail.com');
+    UNLOCK TABLES;
+    """
+    results = mysql.query(sql)
+    print(results)
+    results = mysql.query(sql2)
+    print(results)
+    return "asdf"
 
 # "/api/signwebform" router'ina web form dan "action" kismindan gelen istekleri karsilamak icin kullandik.
 @app.route("/api/signwebform", methods=["POST"])

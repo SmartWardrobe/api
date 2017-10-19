@@ -18,8 +18,8 @@ def create_user_with_api():
     url = "http://localhost:5000/api/create_user"
     headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
     data = {
-        "username": "ergin",
-        "email": "ergin@ergin.com",
+        "username": "tugce",
+        "email": "tugce@tugce.com",
         "password": "123456"
     }
     response = requests.post(url, data=json.dumps(data), headers=headers)   # Api'te istegi attigimiz yer.
@@ -44,9 +44,9 @@ def update_user_info_with_api(username):
     url = "http://localhost:5000/api/user/" + str(username)
     headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
     newdata = {
-        "username": "ergin",
-        "email": "ergin____asdaksdjasjd@ergin.com",
-        "password": "123456sdasdasdasd"
+        "username": "tugce",
+        "email": "tugce____asdaksdjasjd@tugce.com",
+        "password": "12345678"
     }
     r = requests.put(url, data=json.dumps(newdata), headers=headers)
     rJson = r.json()
