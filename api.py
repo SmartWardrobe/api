@@ -1,16 +1,21 @@
+import os
+
 # "Flask" paketini kullanmamizin sebebi uygulamayi ayaga kaldirmak icin.
 # "request" paketi ise "api" ye gelen isteklerin icindeki datalari almak icin.
 # "jsonify" paketi ise "api" ye gelen isteklere json formatinda data gondermek icin.
 from flask import Flask, request, jsonify
 from flask_mysqldb import MySQL
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv(), override=True)
 
 # Flask uygulamasini instance i olusturulur.
 app=Flask(__name__)
 mysql=MySQL()
-app.config['MYSQL_HOST']='localhost'
-app.config['MYSQL_USER']='root'
-app.config['MYSQL_PASSWORD']='nezahat123'
-app.config['MYSQL_DB']='login_data'
+app.config['MYSQL_USER']     = os.environ.get("MYSQL_USER")
+app.config['MYSQL_PASSWORD'] = os.environ.get("MYSQL_PASSWORD")
+app.config['MYSQL_DB']       = os.environ.get("MYSQL_DB")
+app.config['MYSQL_HOST']     = os.environ.get("MYSQL_HOST")
 mysql.init_app(app)
 
 
@@ -22,7 +27,6 @@ def hello():
     cur = mysql.connection.cursor()
     cur.execute("select version();")
     mysql.connection.commit()
-    print(results)
     print("tugece")
     return "Ayaktayim, yikilmadim."
 
