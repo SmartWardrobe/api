@@ -27,6 +27,14 @@ Flask ile yazilan Api(Web service).
  $ virtualenv venv                            # create virtual enviroment
  $ source venv/bin/activate                   # actived virtual environment
  (venv)$ pip install -r requirements.txt      # download requirement packages.
+ Mysql bağlantılarını sağlamak için .env dosyası oluşturulmalı. 
+ .env dosyasının içerisindeki alanlar
+ MYSQL_HOST     = YOUR HOSTNAME
+ MYSQL_USER     = YOUR USERNAME
+ MYSQL_PASSWORD = YOUR PASSWORD
+ MYSQL_DB       = YOUR DATABASE NAME
+ kullandığınız mysql bilgilerine göre doldurulmalıdır.
+ Bu bilgiler api.py içerisindeki dotenv paketi ile ulaşıyoruz.
  (venv)$ python api.py                        # Run App.
  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 ```
