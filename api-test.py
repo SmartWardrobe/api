@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask
 import requests
 import json
 
@@ -6,11 +6,6 @@ import json
 
 app = Flask(__name__)
 
-# Web te form gosterilir. Ve form'dan api'ye istek atilir.
-@app.route("/formtest")
-def main():
-    # templates folder ina bakiyor.
-	return render_template("index.html", title="Sign") 
 
 # Api'ye post istegi atiliyor, ionic'ten atiliyormus gibi.
 @app.route("/create_user")
