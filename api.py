@@ -10,8 +10,12 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv(), override=True)
 
 # Flask uygulamasini instance i olusturulur.
+
+
 app=Flask(__name__)
 mysql=MySQL()
+#mysql bilgilerini .env uzantili dosyanini icine yerlestiriyoruz. 'dotenv' ile mysql bilgilerini cekerek
+#buradan  gerekli bagalntilari sagliyoruz. 
 app.config['MYSQL_USER']     = os.environ.get("MYSQL_USER")
 app.config['MYSQL_PASSWORD'] = os.environ.get("MYSQL_PASSWORD")
 app.config['MYSQL_DB']       = os.environ.get("MYSQL_DB")
@@ -64,16 +68,7 @@ def init_mysql():
         print(e)
         return str(e.args[1])
 
-    return "asdf"
-
-# "/api/signwebform" router'ina web form dan "action" kismindan gelen istekleri karsilamak icin kullandik.
-@app.route("/api/signwebform", methods=["POST"])
-def sign():
-    username= str(request.form["username"])
-    password=str(request.form["password"])
-    email=str(request.form["email"])
-    print(username + password + email)
-    return username + password + email
+    return "Tablo yeniden olusturuldu."
 
 
 # Asil Api asagidaki kodlardan sonra basliyor.
