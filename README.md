@@ -29,11 +29,11 @@ Flask ile yazilan Api(Web service).
  (venv)$ pip install -r requirements.txt      # download requirement packages.
  (venv)$ # we create .env file, because we need it for mysql connection
  (venv)$ vim .env   # we're opening .env with vim.
- (venv)$ cat .env   # we're looking in .env
  MYSQL_HOST     = YOUR HOSTNAME
  MYSQL_USER     = YOUR USERNAME
  MYSQL_PASSWORD = YOUR PASSWORD
  MYSQL_DB       = YOUR DATABASE NAME
+ (venv)$ cat .env   # we're looking in .env
  (venv)$ # dotenv package reads it, then adds your os's environments.
  (venv)$ python api.py                        # Run App.
  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
