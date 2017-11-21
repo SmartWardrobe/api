@@ -15,7 +15,7 @@ load_dotenv(find_dotenv(), override=True)
 app=Flask(__name__)
 mysql=MySQL()
 #mysql bilgilerini .env uzantili dosyanini icine yerlestiriyoruz. 'dotenv' ile mysql bilgilerini cekerek
-#buradan  gerekli bagalntilari sagliyoruz. 
+#buradan  gerekli bagalntilari sagliyoruz.
 app.config['MYSQL_USER']     = os.environ.get("MYSQL_USER")
 app.config['MYSQL_PASSWORD'] = os.environ.get("MYSQL_PASSWORD")
 app.config['MYSQL_DB']       = os.environ.get("MYSQL_DB")
@@ -24,15 +24,20 @@ mysql.init_app(app)
 
 
 
-# "/" router'ina istek geldiginde api'nin ayakta oldugu anlamak icin kullandik.
-@app.route("/")
+@app.route('/')
+def index():
+    return "Shut up, bitch"
+
+# "/mysql_test" router'ina istek geldiginde api'nin ayakta oldugu anlamak icin kullandik.
+@app.route("/mysql_test")
 def hello():
     # Burda mysql istek atiyor, ver donun cevap print ediliyor.
     cur = mysql.connection.cursor()
     cur.execute("select version();")
-    mysql.connection.commit()
+    #mysql.connection.commit()
+    data = cur.fetchall()
     print("tugece")
-    return "Ayaktayim, yikilmadim."
+    return "Ayaktayim, yikilmadim. " + str(data)
 
 @app.route("/api/mysql_init")
 def init_mysql():
@@ -51,7 +56,7 @@ def init_mysql():
     cur.execute(table_sql)
     data = cur.fetchall()
     print(data)
-    
+
     """
     insert_sql = [
         "INSERT INTO `user` (username, fullname, password,email) VALUES('tugce123', 'Tugce Cetinkaya'  ,'12345','tugce@gmail.com');",
@@ -102,7 +107,7 @@ def create_user():
         mysql.connection.commit()
     except Exception as e:
         print(e)
-        return jsonify({"status": "error", "content": str(e.args[1]) }) 
+        return jsonify({"status": "error", "content": str(e.args[1]) })
 
     return jsonify({"status": "okey", "content": "Kayit basarili, User olusturdum."})
 
@@ -125,7 +130,7 @@ def get_user_information(username):
     except Exception as e:
         print(e)                                                        # (1026, 'email or username is not unique')
         return jsonify({"status": "error", "content": str(e.args[1]) }) # 'email or username is not unique'
-    
+
     return jsonify({"status": "okey", "data": user_info})
 
 # "/api/user/ergin" istek atilir ama istegin icinde json olur. Cunku Update islemi gerceklestiriliyor.
@@ -140,8 +145,8 @@ def update_user_information(currentusername):
         mysql.connection.commit()
     except Exception as e:
         print(e)
-        return jsonify({"status": "error", "content": str(e.args[1]) }) 
-    
+        return jsonify({"status": "error", "content": str(e.args[1]) })
+
     return jsonify({"status": "okey", "data": data})
 
 # "/api/user/ergin" istek atilir. Ve dlete islemi gerceklesir.
@@ -154,9 +159,9 @@ def delete_user(username):
         mysql.connection.commit()
     except Exception as e:
         print(e)
-        return jsonify({"status": "error", "content": str(e.args[1]) }) 
-    
+        return jsonify({"status": "error", "content": str(e.args[1]) })
+
     return jsonify({"status": "okey", "content": "fuck off"})
 
 if __name__ == "__main__":
-    app.run(port=5000)
+    app.run()
