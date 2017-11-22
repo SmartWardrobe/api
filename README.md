@@ -61,3 +61,6 @@ Flask ile yazilan Api(Web service).
  $ curl localhost:5001/user/ergin/put
  $ curl localhost:5001/user/ergin/delete
 ```
+
+#Heroku.com 'a Deploy Edilmesi
+
