@@ -1,3 +1,5 @@
+src/pages (src klasörünün pages kısmında)
+
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import {Http,Headers} from '@angular/http';
