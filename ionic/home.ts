@@ -1,4 +1,4 @@
-src/pages (src klasörünün pages kısmında)
+/* src/pages/home (src klasörünün içerisindeki pages ın home kısmında) */
 
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
