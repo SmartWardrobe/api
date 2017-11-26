@@ -1,5 +1,6 @@
-# api-flask
-Flask ile yazilan Api(Web service). Suan api heroku da calisiyor. Local'e kurmaya gerek yok.
+# api-flask ![Heroku](https://heroku-badge.herokuapp.com/?app=gardrop-api)
+Flask ile yazilan Api(Web service). Suan api heroku da calisiyor. Local'e kurmaya gerek yok.Heroku'ya pushlamaya da gerek yok. Otomatik master branch'i herokuya pushlaniyor.
+
 
 # Proje Yapisi
 <p>"api.py" dosyasi api dir. "api-test.py" ise api'yi test eden dosyadir. "empty.py" dosyasi ise suanlik isimize lazim degil.Ama ilerde lazim olucak kodlar.</p>
