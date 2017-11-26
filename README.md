@@ -1,6 +1,9 @@
 # api-flask ![Heroku](https://heroku-badge.herokuapp.com/?app=gardrop-api)
 Flask ile yazilan Api(Web service). Suan api heroku da calisiyor. Local'e kurmaya gerek yok.Heroku'ya pushlamaya da gerek yok. Otomatik master branch'i herokuya pushlaniyor.
 
+Projenin test reposu : https://github.com/erginipekci7/api-flask-test 
+
+Projenin Ionic reposu: https://github.com/tugcectnky/gardrop-ionic
 
 # Proje Yapisi
 <h4>Burasi guncellenmeli. Detayli bir sekilde proje anlatilmali.</h4>
