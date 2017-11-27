@@ -36,7 +36,7 @@ def after_request(resp):
 
 @app.route('/')
 def index():
-    return "Shut up, bitch"
+    return jsonify({"status": "okey", "content": "Shut up, bitch!"}), 200
 
 
 # "/mysql_test" router'ina istek geldiginde api'nin ayakta oldugu anlamak icin kullandik.
@@ -48,7 +48,7 @@ def hello():
     # mysql.connection.commit()
     data = cur.fetchall()
     print("tugece")
-    return "Ayaktayim, yikilmadim. " + str(data)
+    return jsonify({"status": "okey", "content": "Ayaktayim, yikilmadim. " + str(data)}), 200
 
 
 @app.route("/api/mysql_init")
@@ -84,10 +84,9 @@ def init_mysql():
         mysql.connection.commit()
     except Exception as e:
         print(e)
-        return str(e.args[1])
+        return jsonify({"status": "error", "content": str(e.args[1])}), 500
 
-    return "Tablo yeniden olusturuldu."
-
+    return jsonify({"status": "okey", "content": "Tablo yeniden olusturuldu."}), 200
 
 # Asil Api asagidaki kodlardan sonra basliyor.
 # Api'ye istek ya ionic'ten atarsin ya da ayri bir flask uygulamasindan.
@@ -121,9 +120,9 @@ def create_user():
         mysql.connection.commit()
     except Exception as e:
         print(e)
-        return jsonify({"status": "error", "content": str(e.args[1])})
+        return jsonify({"status": "error", "content": str(e.args[1])}), 500
 
-    return jsonify({"status": "okey", "content": "Kayit basarili, User olusturdum."})
+    return jsonify({"status": "okey", "content": "Kayit basarili, User olusturdum."}), 200
 
 
 # "/api/user/ergin" veya "/api/user/tugce" normal istek atilir(GET). Ve user nin bilgileri istek atilana geri dondurulur.
@@ -144,9 +143,9 @@ def get_user_information(username):
 
     except Exception as e:
         print(e)  # (1026, 'email or username is not unique')
-        return jsonify({"status": "error", "content": str(e.args[1])})  # 'email or username is not unique'
+        return jsonify({"status": "error", "content": str(e.args[1])}), 500  # 'email or username is not unique'
 
-    return jsonify({"status": "okey", "data": user_info})
+    return jsonify({"status": "okey", "data": user_info}), 200
 
 
 # "/api/user/ergin" istek atilir ama istegin icinde json olur. Cunku Update islemi gerceklestiriliyor.
@@ -163,9 +162,9 @@ def update_user_information(currentusername):
         mysql.connection.commit()
     except Exception as e:
         print(e)
-        return jsonify({"status": "error", "content": str(e.args[1])})
+        return jsonify({"status": "error", "content": str(e.args[1])}), 500
 
-    return jsonify({"status": "okey", "data": data})
+    return jsonify({"status": "okey", "data": data}), 200
 
 
 # "/api/user/ergin" istek atilir. Ve dlete islemi gerceklesir.
@@ -178,9 +177,9 @@ def delete_user(username):
         mysql.connection.commit()
     except Exception as e:
         print(e)
-        return jsonify({"status": "error", "content": str(e.args[1])})
+        return jsonify({"status": "error", "content": str(e.args[1])}), 500
 
-    return jsonify({"status": "okey", "content": "fuck off"})
+    return jsonify({"status": "okey", "content": "fuck off"}), 200
 
 
 if __name__ == "__main__":
