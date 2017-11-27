@@ -25,6 +25,7 @@ Projenin Ionic reposu: https://github.com/tugcectnky/gardrop-ionic
 
 
 ```bash
+ $ sudo apt-get install libmysqlclient-dev  # for mysql connection for ubuntu
  $ git clone https://github.com/erginipekci7/api-flask  # First download repo
  $ cd api-flask                               # changed active directory to repo
  $ virtualenv venv                            # create virtual enviroment
