@@ -1,0 +1,18 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+after_request	../app.py	/^def after_request(resp):$/;"	kind:function	line:28
+app	../app.py	/^app = Flask(__name__)$/;"	kind:variable	line:15
+app.py	../app.py	1;"	kind:file	line:1
+create_user	../app.py	/^def create_user():$/;"	kind:function	line:106
+delete_user	../app.py	/^def delete_user(username):$/;"	kind:function	line:172
+empty.py	../denemekodlar/empty.py	1;"	kind:file	line:1
+get_user_information	../app.py	/^def get_user_information(username):$/;"	kind:function	line:130
+hello	../app.py	/^def hello():$/;"	kind:function	line:44
+index	../app.py	/^def index():$/;"	kind:function	line:38
+init_mysql	../app.py	/^def init_mysql():$/;"	kind:function	line:55
+mysql	../app.py	/^mysql = MySQL()$/;"	kind:variable	line:16
+update_user_information	../app.py	/^def update_user_information(currentusername):$/;"	kind:function	line:153

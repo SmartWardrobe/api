@@ -38,6 +38,12 @@ def after_request(resp):
 def index():
     return jsonify({"status": "okey", "content": "Shut up, bitch!"}), 200
 
+@app.route("/deneme", methods=["POST"])
+def deneme():
+    #JSON.parse(yourDataStr)
+    data = request.get_json()           # Json datasi istegin icinden alinir.
+    return jsonify({data}), 200
+
 
 # "/mysql_test" router'ina istek geldiginde api'nin ayakta oldugu anlamak icin kullandik.
 @app.route("/mysql_test")
