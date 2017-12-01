@@ -108,7 +108,7 @@ def init_mysql():
 # DELETE    - DELETE islemleri
 
 # "/api/create_user" router'ina json datasi ile birlikte istek atilir.(POST)
-@app.route("/api/create_user", methods=["POST"])
+@app.route("/create_user", methods=["POST"]) #/api/create_user
 def create_user():
     data = request.get_json()  # Json datasi istegin icinden alinir.
     print(data)
