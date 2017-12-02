@@ -1,9 +1,13 @@
 # api-flask ![Heroku](https://heroku-badge.herokuapp.com/?app=gardrop-api)
 Flask ile yazilan Api(Web service). Suan api heroku da calisiyor. Local'e kurmaya gerek yok.Heroku'ya pushlamaya da gerek yok. Otomatik master branch'i herokuya pushlaniyor.
 
-Projenin test reposu : https://github.com/erginipekci7/api-flask-test 
+# Gardop Uygulamasinin Repolari
 
-Projenin Ionic reposu: https://github.com/tugcectnky/gardrop-ionic
+Projenin Ionic reposu: https://github.com/erginipekci7/Gardrop-Ionic
+
+Projenin Api reposi: https://github.com/erginipekci7/api-flask
+
+Projenin Api Test reposu : https://github.com/erginipekci7/api-flask-test
 
 # Proje Yapisi
 <h4>Burasi guncellenmeli. Detayli bir sekilde proje anlatilmali.</h4>
@@ -13,12 +17,13 @@ Projenin Ionic reposu: https://github.com/tugcectnky/gardrop-ionic
 | Method  | Path                | Description                                   |
 | ------- |---------------------|-----------------------------------------------|
 | GET     | /                   | Api ayakta olup olmadigi kontrol edilir.      |
-| GET     | /mysql_test         | Mysql'in calisip calismadigi kontrol edilir.  |
-| GET     | /api/mysql_init     | Mysql hazir tablolar ve kullanicilar eklenir. |
-| POST    | /api/create_user    | Yeni kullanici olusturulur.                   |
-| GET     | /api/user/:username | Kullanicinin bilgisi doner.                   |
-| PUT     | /api/user/:username | Kullanicinin bilgisi guncellenir.             |
-| DELETE  | /api/user/:username | Kullanici silinir.                            |
+| GET     | /v1/pingpongjson    | Gelen json'i gonderir.                        |
+| GET     | /v1/mysql_test      | Mysql'in calisip calismadigi kontrol edilir.  |
+| GET     | /v1/mysql_init      | Mysql hazir tablolar ve kullanicilar eklenir. |
+| POST    | /v1/create_user     | Yeni kullanici olusturulur.                   |
+| GET     | /v1/user/:username  | Kullanicinin bilgisi doner.                   |
+| PUT     | /v1/user/:username  | Kullanicinin bilgisi guncellenir.             |
+| DELETE  | /v1/user/:username  | Kullanici silinir.                            |
 
 # Localde Kurulum - Api
 <p>Linux kullaniyorsan terminalle ulasip bu komutlari calistirmalisin, MacOs ayni sekil. Windows icin bash <a href="https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/">yukle</a></p>
