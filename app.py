@@ -38,15 +38,14 @@ def after_request(resp):
 def index():
     return jsonify({"status": "okey", "content": "Shut up, bitch!"}), 200
 
-@app.route("/deneme", methods=["POST"])
-def deneme():
-    #JSON.parse(yourDataStr)
+@app.route("/v1/pingpongjson", methods=["POST"])
+def pingpongjson():
     data = request.get_json()           # Json datasi istegin icinden alinir.
     return jsonify({data}), 200
 
 
 # "/mysql_test" router'ina istek geldiginde api'nin ayakta oldugu anlamak icin kullandik.
-@app.route("/mysql_test")
+@app.route("/v1/mysql_test")
 def hello():
     # Burda mysql istek atiyor, ver donun cevap print ediliyor.
     cur = mysql.connection.cursor()
@@ -57,7 +56,7 @@ def hello():
     return jsonify({"status": "okey", "content": "Ayaktayim, yikilmadim. " + str(data)}), 200
 
 
-@app.route("/api/mysql_init")
+@app.route("/v1/mysql_init")
 def init_mysql():
     table_sql = """
     DROP TABLE IF EXISTS `user`;
@@ -107,8 +106,8 @@ def init_mysql():
 # PUT       - UPDATE islemleri
 # DELETE    - DELETE islemleri
 
-# "/api/create_user" router'ina json datasi ile birlikte istek atilir.(POST)
-@app.route("/create_user", methods=["POST"]) #/api/create_user
+# "/v1/create_user" router'ina json datasi ile birlikte istek atilir.(POST)
+@app.route("/v1/create_user", methods=["POST"]) #/api/create_user
 def create_user():
     data = request.get_json()  # Json datasi istegin icinden alinir.
     print(data)
@@ -132,7 +131,7 @@ def create_user():
 
 
 # "/api/user/ergin" veya "/api/user/tugce" normal istek atilir(GET). Ve user nin bilgileri istek atilana geri dondurulur.
-@app.route("/api/user/<string:username>", methods=["GET"])
+@app.route("/v1/user/<string:username>", methods=["GET"])
 def get_user_information(username):
     print("Okunacak username: ", username)
     user_info = {}  # dict()
@@ -155,7 +154,7 @@ def get_user_information(username):
 
 
 # "/api/user/ergin" istek atilir ama istegin icinde json olur. Cunku Update islemi gerceklestiriliyor.
-@app.route("/api/user/<string:currentusername>", methods=["PUT"])
+@app.route("/v1/user/<string:currentusername>", methods=["PUT"])
 def update_user_information(currentusername):
     data = request.get_json()  # Json datasi istegin icinden alinir.
     print(data)
@@ -174,7 +173,7 @@ def update_user_information(currentusername):
 
 
 # "/api/user/ergin" istek atilir. Ve dlete islemi gerceklesir.
-@app.route("/api/user/<string:username>", methods=["DELETE"])
+@app.route("/v1/user/<string:username>", methods=["DELETE"])
 def delete_user(username):
     print("Silinecek username: ", username)
     try:
