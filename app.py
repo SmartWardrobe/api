@@ -23,7 +23,7 @@ app.config['MYSQL_HOST'] = os.environ.get("MYSQL_HOST")
 mysql.init_app(app)
 
 
-# uzak sunucudan json çekmek için bu izinler gerekli
+# uzak sunucudan json cekmek icin bu izinler gerekli
 @app.after_request
 def after_request(resp):
     resp.headers.add('Access-Control-Allow-Origin', '*')
@@ -77,7 +77,7 @@ def init_mysql():
     """
     insert_sql = [
         "INSERT INTO `user` (username, fullname, password,email) VALUES('tugce123', 'Tugce Cetinkaya'  ,'12345','tugce@gmail.com');",
-        "INSERT INTO `user` (username, fullname, password,email) VALUES('ergın123', 'Ergın Cetinhafif' ,'12345','ergin@gmail.com');",
+        "INSERT INTO `user` (username, fullname, password,email) VALUES('ergin123', 'Ergin Cetinhafif' ,'12345','ergin@gmail.com');",
         "INSERT INTO `user` (username, fullname, password,email) VALUES('ceo123'  , 'Ceo Cetin'        ,'12345','ceo@gmail.com');",
     ]
     """
@@ -132,14 +132,14 @@ def create_user():
 #Database kayitli user lari gosterir
 @app.route("/v1/show_users", methods=["GET"])
 def showusers():
-    users_info = {}
+    users_info = ""
     try:
         cur = mysql.connection.cursor()
         cur.execute("SELECT * FROM `user`")
         users_info = cur.fetchall() 
     except Exception as e:
         print(e)
-    return jsonify({"status": "okey", "data": "users_info"}),200
+    return jsonify({"status": "okey", "data": users_info}),200
 
 
 
