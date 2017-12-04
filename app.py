@@ -139,7 +139,7 @@ def showusers():
         users_info = cur.fetchall() 
     except Exception as e:
         print(e)
-    return jsonify({"status": "okey", "data": users_info}),200
+    return jsonify({"status": "okey", "data": "users_info"}),200
 
 
 
