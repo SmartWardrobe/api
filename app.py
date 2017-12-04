@@ -129,6 +129,19 @@ def create_user():
 
     return jsonify({"status": "okey", "content": "Kayit basarili, User olusturdum."}), 200
 
+#Database kayitli user lari gosterir
+@app.route("/v1/show_users", methods=["GET"])
+def showusers():
+    users_info = {}
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM `user`")
+        users_info = cur.fetchall() 
+    except Exception as e:
+        print(e)
+    return jsonify({"status": "okey", "data": users_info}),200
+
+
 
 # "/api/user/ergin" veya "/api/user/tugce" normal istek atilir(GET). Ve user nin bilgileri istek atilana geri dondurulur.
 @app.route("/v1/user/<string:username>", methods=["GET"])
