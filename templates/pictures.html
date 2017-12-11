@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Flask Intro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      </head>
+  <body>
+    <div class="container">
+      <h1>Pictures !!!</h2>
+      <br>
+      <p>Click <a href="/">here</a> to go home.</p>
+      {% for pic in pics %}
+        <img src="{{ pic }}" width="500" height="500" />
+      {% endfor %}
+    </div>
+  </body>
+</html>

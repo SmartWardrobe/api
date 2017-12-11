@@ -1,6 +1,8 @@
-import os
-
+import os, json
+from flask import Flask, request, jsonify, render_template, redirect, url_for, send_from_directory
+from flask_mysqldb import MySQL
 from dotenv import load_dotenv, find_dotenv
+from werkzeug.utils import secure_filename
 # "Flask" paketini kullanmamizin sebebi uygulamayi ayaga kaldirmak icin.
 # "request" paketi ise "api" ye gelen isteklerin icindeki datalari almak icin.
 # "jsonify" paketi ise "api" ye gelen isteklere json formatinda data gondermek icin.
@@ -10,9 +12,11 @@ from flask_mysqldb import MySQL
 load_dotenv(find_dotenv(), override=True)
 
 # Flask uygulamasini instance i olusturulur.
-
+UPLOAD_FOLDER = './uploads'
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 mysql = MySQL()
 # mysql bilgilerini .env uzantili dosyanini icine yerlestiriyoruz. 'dotenv' ile mysql bilgilerini cekerek
 # buradan  gerekli bagalntilari sagliyoruz.
@@ -29,9 +33,50 @@ def after_request(resp):
     resp.headers.add('Access-Control-Allow-Origin', '*')
     resp.headers.add('Access-Control-Allow-Headers', 'Content-Type, X-Token')
     resp.headers.add('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
-    resp.headers['Content-Type'] = 'application/json'
+    #resp.headers['Content-Type'] = 'application/json'
     resp.headers['server'] = 'BitirmeServer'
     return resp
+
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/upload')
+def upload_file():
+   return render_template('upload.html')
+
+@app.route('/pics')
+def getPictures():
+    allofpic = ["uploads/" + pic for pic in os.listdir('uploads')]
+    print(allofpic)
+    return render_template('pictures.html', pics=allofpic)
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
+    
+@app.route('/uploader', methods = ['POST'])
+def uploader_file():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit a empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            #return json.dumps({'filename':filename})
+            #return redirect(url_for('uploaded_file',
+                                  # filename=filename))
+            return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
 
 
 @app.route('/')
