@@ -29,6 +29,13 @@ Projenin Api Test reposu : https://github.com/erginipekci7/api-flask-test
 # Localde Kurulum - Api
 <p>Linux kullaniyorsan terminalle ulasip bu komutlari calistirmalisin, MacOs ayni sekil. Windows icin bash <a href="https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/">yukle</a></p>
 
+# Localde Güncelleme Yapmak
+<p>Son değişiklikleri (commit) yerel deponuza almak için terminalde git pull komutunu çalıştırın. Bu değişiklikleri al (fetch) ve birleştir (merge) yapacaktır. Konu hakkında faydalı bilgiler -> http://rogerdudler.github.io/git-guide/index.tr.html  </p>
+
+
+
+
+
 
 ```bash
  $ sudo apt-get install libmysqlclient-dev  # for mysql connection for ubuntu
@@ -47,4 +54,7 @@ Projenin Api Test reposu : https://github.com/erginipekci7/api-flask-test
  (venv)$ # dotenv package reads it, then adds your os's environments.
  (venv)$ python app.py                        # Run App.
  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+ 
+ 
+
 ```
