@@ -1,5 +1,6 @@
 import os, json
 import requests
+import pprint
 from flask import Flask, request, jsonify, render_template, redirect, url_for, send_from_directory, flash
 from flask_mysqldb import MySQL
 from dotenv import load_dotenv, find_dotenv
@@ -98,7 +99,8 @@ def temperature(city):
     """
     r = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+ city +"&appid=" + os.environ.get("OPENWEATHER_KEY"))
     json_object = r.json()
-    if json_object["cod"] in ["200"]:
+    pprint.pprint(json_object)
+    if json_object["cod"] in [200]:
         return jsonify({"status": "okey", "content": json_object }), 200
     else:
         return jsonify({"status": "error", "content": "Api'de sorun var!" }), 400
