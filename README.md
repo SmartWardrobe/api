@@ -14,16 +14,17 @@ Projenin Api Test reposu : https://github.com/erginipekci7/api-flask-test
 
 # API - Routes
 
-| Method  | Path                | Description                                   |
-| ------- |---------------------|-----------------------------------------------|
-| GET     | /                   | Api ayakta olup olmadigi kontrol edilir.      |
-| GET     | /v1/pingpongjson    | Gelen json'i gonderir.                        |
-| GET     | /v1/mysql_test      | Mysql'in calisip calismadigi kontrol edilir.  |
-| GET     | /v1/mysql_init      | Mysql hazir tablolar ve kullanicilar eklenir. |
-| POST    | /v1/create_user     | Yeni kullanici olusturulur.                   |
-| GET     | /v1/user/:username  | Kullanicinin bilgisi doner.                   |
-| PUT     | /v1/user/:username  | Kullanicinin bilgisi guncellenir.             |
-| DELETE  | /v1/user/:username  | Kullanici silinir.                            |
+| Method  | Path                   | Description                                   |
+| ------- |---------------------   |-----------------------------------------------|
+| GET     | /                      | Api ayakta olup olmadigi kontrol edilir.      |
+| GET     | /v1/pingpongjson       | Gelen json'i gonderir.                        |
+| GET     | /v1/mysql_test         | Mysql'in calisip calismadigi kontrol edilir.  |
+| GET     | /v1/mysql_init         | Mysql hazir tablolar ve kullanicilar eklenir. |
+| POST    | /v1/create_user        | Yeni kullanici olusturulur.                   |
+| GET     | /v1/user/:username     | Kullanicinin bilgisi doner.                   |
+| PUT     | /v1/user/:username     | Kullanicinin bilgisi guncellenir.             |
+| DELETE  | /v1/user/:username     | Kullanici silinir.                            |
+| GET     | /v1/temperature/: city | Girilen sehrin hava durumu bilgileri doner.   |
 
 # Localde Kurulum - Api
 <p>Linux kullaniyorsan terminalle ulasip bu komutlari calistirmalisin, MacOs ayni sekil. Windows icin bash <a href="https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/">yukle</a></p>
