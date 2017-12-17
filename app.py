@@ -1,6 +1,6 @@
 import os, json
 import requests
-from flask import Flask, request, jsonify, render_template, redirect, url_for, send_from_directory
+from flask import Flask, request, jsonify, render_template, redirect, url_for, send_from_directory, flash
 from flask_mysqldb import MySQL
 from dotenv import load_dotenv, find_dotenv
 from werkzeug.utils import secure_filename
@@ -89,7 +89,7 @@ def pingpongjson():
     data = request.get_json()           # Json datasi istegin icinden alinir.
     return jsonify({data}), 200
 
-@app.route('/temperature/<string:city>')
+@app.route('/v1/temperature/<string:city>', methods=["GET"])
 def temperature(city):
     """
     https://home.openweathermap.org
