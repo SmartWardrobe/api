@@ -24,17 +24,14 @@ Projenin Api Test reposu : https://github.com/erginipekci7/api-flask-test
 | GET     | /v1/user/:username     | Kullanicinin bilgisi doner.                   |
 | PUT     | /v1/user/:username     | Kullanicinin bilgisi guncellenir.             |
 | DELETE  | /v1/user/:username     | Kullanici silinir.                            |
-| GET     | /v1/temperature/: city | Girilen sehrin hava durumu bilgileri doner.   |
+| GET     | /v1/temperature/:city | Girilen sehrin hava durumu bilgileri doner.   |
 
-# Localde Kurulum - Api
-<p>Linux kullaniyorsan terminalle ulasip bu komutlari calistirmalisin, MacOs ayni sekil. Windows icin bash <a href="https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/">yukle</a></p>
 
 # Localde Güncelleme Yapmak
 <p>Son değişiklikleri (commit) yerel deponuza almak için terminalde git pull komutunu çalıştırın. Bu değişiklikleri al (fetch) ve birleştir (merge) yapacaktır. Konu hakkında faydalı bilgiler -> http://rogerdudler.github.io/git-guide/index.tr.html  </p>
 
-
-
-
+# Localde Kurulum - Api
+<p>Linux kullaniyorsan terminalle ulasip bu komutlari calistirmalisin, MacOs ayni sekil. Windows icin bash <a href="https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/">yukle</a></p>
 
 
 ```bash
@@ -54,7 +51,8 @@ Projenin Api Test reposu : https://github.com/erginipekci7/api-flask-test
  (venv)$ # dotenv package reads it, then adds your os's environments.
  (venv)$ python app.py                        # Run App.
  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
- 
- 
 
 ```
+
+# Aws - S3
+Aws cli ile login olmak ve s3 dosya atmayi bu videodan bulabilirsiniz.[Getting Started with AWS S3 CLI](https://www.youtube.com/watch?v=WrVqrvIQRAI)
