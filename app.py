@@ -91,9 +91,14 @@ def pingpongjson():
 
 @app.route('/temperature/<string:city>')
 def temperature(city):
-    r = requests.get("http://samples.openweathermap.org/data/2.5/weather?q="+ city +"&appid=" + os.environ.get("OPENWEATHER_KEY"))
+    """
+    https://home.openweathermap.org
+    Activation of an API key for Free and Startup accounts takes 10 minutes. For other accounts it takes from 10 to 60 minutes.
+    You can generate as many API keys as needed for your subscription. We accumulate the total load from all of them. 
+    """
+    r = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+ city +"&appid=" + os.environ.get("OPENWEATHER_KEY"))
     json_object = r.json()
-    if json_object != None:
+    if json_object["cod"] in ["200"]:
         return jsonify({"status": "okey", "content": json_object }), 200
     else:
         return jsonify({"status": "error", "content": "Api'de sorun var!" }), 400
