@@ -77,19 +77,17 @@ def uploader_file():
             #return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
             return "Yaaaaaa"
 
-@app.route('/v1/upload_pic', methods=["POST"])
-def upload_pic():
-    # get file in request.file
-    # saves in pics directory
-    # save photo info in mysql
-    # save photo aws s3 bucket
-    """
-    with open("pics/efuli.png", "rb") as file:
-        AwsOps.upload_pic_to_s3_bucket(file, 'efuli.png')
+@app.route('/v1/show/pics')
+def show_pics():
+    allofpic = ["uploads/" + pic for pic in os.listdir('uploads')]
+    print(allofpic)
+    return render_template('pictures.html', pics=allofpic)
 
-    return jsonify({"status": "okey", "content": "okey i uploaded"}), 200
-    """
-    return ""
+@app.route('/v1/show/bucketsNfiles')
+def show_buckets_N_files():
+    bucketList = AwsOps.get_bucket_list_in_s3()
+    fileList = AwsOps.get_file_list_in_s3_bucket()
+    return render_template('bucketsNfiles.html', buckets=bucketList, files=fileList)
 
 @app.route('/v1/get_user_pics_list', methods=["GET"])
 def get_user_pics_list():
@@ -152,14 +150,14 @@ def init_mysql():
         return jsonify({"status": "error", "content": str(err.args[1])}), 500
 
     date = MysqlOps.get_time()
-    result, err = MysqlOps.insert_photo('tugce123', date)
+    result, err = MysqlOps.insert_photo('tugce123', 'tugce123_' + date)
     print(result)
     print(err)
     if err != None:
         return jsonify({"status": "error", "content": str(err.args[1])}), 500
 
     with open("pics/efuli.png", "rb") as file:
-        AwsOps.upload_pic_to_s3_bucket(file, 'tugce123_' + date + '.png')
+        AwsOps.upload_pic_to_s3_bucket(file, 'tugce123_' + date)
 
     return jsonify({"status": "okey", "content": "Tablolar olusturuldu.Ve hazir kisi ve photo eklendi."}), 200
 
