@@ -60,17 +60,22 @@ def uploader_file():
         # if user does not select file, browser also
         # submit a empty part without filename
         print("4.cu kisim")
+        print("file.filename: ", file.filename)
         if file.filename == '':
             #flash('No selected file')
             return redirect(request.url)
+
+        print("5.ci kisim")
         if file and Util.allowed_file(file.filename):
             filename = secure_filename(file.filename)
+            print("filename:", filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             #return json.dumps({'filename':filename})
             #return redirect(url_for('uploaded_file',
                                   # filename=filename))
-            return send_from_directory(app.config['UPLOAD_FOLDER'],
-                               filename)
+
+            #return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
+            return "Yaaaaaa"
 
 @app.route('/v1/upload_pic', methods=["POST"])
 def upload_pic():
