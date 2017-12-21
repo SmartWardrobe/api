@@ -135,7 +135,7 @@ def hello():
 
     return jsonify({"status": "error", "content": str(err.args[1])}), 500
 
-@app.route("/v1/mysql_init")
+@app.route("/v1/project_init")
 def init_mysql():
     result, err = MysqlOps.create_tables()
     print(result)
@@ -143,10 +143,21 @@ def init_mysql():
     result, err = MysqlOps.insert_user('tugce123', 'Tugce Cetinkaya', '12345', 'tugce@gmail.com')
     print(result)
     print(err)
-    if err == None:
-        return jsonify({"status": "okey", "content": "Tablo yeniden olusturuldu."}), 200
-    
-    return jsonify({"status": "error", "content": str(err.args[1])}), 500
+    if err != None:
+        return jsonify({"status": "error", "content": str(err.args[1])}), 500
+
+    date = MysqlOps.get_time()
+    result, err = MysqlOps.insert_photo('tugce123', date)
+    print(result)
+    print(err)
+    if err != None:
+        return jsonify({"status": "error", "content": str(err.args[1])}), 500
+
+    with open("pics/efuli.png", "rb") as file:
+        AwsOps.upload_pic_to_s3_bucket(file, 'tugce123_' + date + '.png')
+
+    return jsonify({"status": "okey", "content": "Tablolar olusturuldu.Ve hazir kisi ve photo eklendi."}), 200
+
 
 # "/v1/create_user" router'ina json datasi ile birlikte istek atilir.(POST)
 @app.route("/v1/create_user", methods=["POST"]) #/api/create_user
