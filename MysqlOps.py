@@ -23,6 +23,9 @@ def init(app):
 def get_time():
     return time.strftime("%Y-%m-%d-%H-%M-%S")
 
+def create_filename(username, date):
+    return username + "_" + date
+
 def create_tables():
     general_sql = """
     DROP TABLE IF EXISTS `photo`;
