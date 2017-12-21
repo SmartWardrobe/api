@@ -8,6 +8,7 @@ load_dotenv(find_dotenv(), override=True)
 
 import MysqlOps
 import Util
+import AwsOps
 
 # Flask uygulamasini instance i olusturulur.
 app = Flask(__name__)
@@ -17,7 +18,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 app = MysqlOps.init(app)
 
-# uzak sunucudan json cekmek icin bu izinler gerekli
+# ionic'ten uzak sunucudan json cekmek icin bu izinler gerekli
 @app.after_request
 def after_request(resp):
     resp.headers.add('Access-Control-Allow-Origin', '*')
@@ -64,6 +65,34 @@ def uploader_file():
                                   # filename=filename))
             return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
+
+@app.route('/v1/upload_pic', methods=["POST"])
+def upload_pic():
+    # get file in request.file
+    # saves in pics directory
+    # save photo info in mysql
+    # save photo aws s3 bucket
+    """
+    with open("pics/efuli.png", "rb") as file:
+        AwsOps.upload_pic_to_s3_bucket(file, 'efuli.png')
+
+    return jsonify({"status": "okey", "content": "okey i uploaded"}), 200
+    """
+    return ""
+
+@app.route('/v1/get_user_pics_list', methods=["GET"])
+def get_user_pics_list():
+    # read mysql, then learn photoids
+    # return photoid list
+    return ""
+
+@app.route('/v1/get_pic/<string:photoid>', methods=["GET"])
+def get_pic_by_photoid(photoid):
+    # first check pics directory, if it is exists, return file
+    # if it is not exists, download pic in aws s3
+    # AwsOps.download_pic_in_s3_bucket(username + "_" + filename)
+    # then return file
+    return ""
 
 @app.route('/')
 def index():
