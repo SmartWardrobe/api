@@ -1,7 +1,5 @@
 import os
 from flask_mysqldb import MySQL
-from dotenv import load_dotenv, find_dotenv
-load_dotenv(find_dotenv(), override=True)
 
 mysql = MySQL()
 
