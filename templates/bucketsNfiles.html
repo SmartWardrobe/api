@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Flask Intro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Bucket and File List!!!</h2>
+      <br>
+      <p>Click <a href="/">here</a> to go home.</p>
+      <p>Buckets</p>
+      <ul>
+        {% for bucket in buckets %}
+            <li>{{ bucket }}</li>
+        {% endfor %}
+      </ul>
+
+      <p>Files</p>
+      <ul>
+        {% for file in files %}
+            <li>{{ file }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </body>
+</html>
