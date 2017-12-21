@@ -40,6 +40,7 @@ def create_tables():
     `photoid` int(11) NOT NULL AUTO_INCREMENT,
     `username` varchar(100) NOT NULL,
     `date` varchar(100) NOT NULL,
+    `filename` varchar(100) NOT NULL,
     PRIMARY KEY (`photoid`),
     FOREIGN KEY (username) REFERENCES user(username) ON DELETE CASCADE
     ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
@@ -62,9 +63,10 @@ def insert_user(username, fullname, password, email):
 
 def insert_photo(username, date):
     try:
+        filename = username + "_" + date
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO `photo` (username, date) VALUES(%s,%s)",
-                    (username, date))
+        cur.execute("INSERT INTO `photo` (username, date, filename) VALUES(%s,%s, %s)",
+                    (username, date, filename))
         mysql.connection.commit()
         return "", None # No problem
     except Exception as e:
