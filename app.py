@@ -1,8 +1,7 @@
 import os, json, pprint
 import requests
-from flask import Flask, request, jsonify, render_template, redirect, url_for, send_from_directory, flash
+from flask import Flask, request, jsonify, render_template, redirect, send_from_directory
 from werkzeug.utils import secure_filename
-from flask import Flask, request, jsonify
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv(), override=True)
 
@@ -85,17 +84,23 @@ def show_pics():
 
 @app.route('/v1/show/bucketsNfiles')
 def show_buckets_N_files():
-    bucketList = AwsOps.get_bucket_list_in_s3()
-    fileList = AwsOps.get_file_list_in_s3_bucket()
-    return render_template('bucketsNfiles.html', buckets=bucketList, files=fileList)
+    bucket_list = AwsOps.get_bucket_list_in_s3()
+    file_list = AwsOps.get_file_list_in_s3_bucket()
+    return render_template('bucketsNfiles.html', buckets=bucket_list, files=file_list)
 
-@app.route('/v1/get_user_pics_list', methods=["GET"])
-def get_user_pics_list():
-    # read mysql, then learn photoids
-    # return photoid list
-    return ""
+@app.route('/v1/user/<string:username>/pics', methods=["GET"])
+def get_user_pics_list(username):
+    """
+        read mysql, then learn filenames
+        return filename list
+    """
+    pics, err = MysqlOps.get_user_pics_by_username(username)
+    if err == None:
+        return jsonify({"status": "okey", "data": pics}), 200
 
-@app.route('/v1/get_pic/<string:photoid>', methods=["GET"])
+    return jsonify({"status": "error", "content": str(err.args[1])}), 500
+
+@app.route('/v1/pic/<string:photoid>', methods=["GET"])
 def get_pic_by_photoid(photoid):
     # first check pics directory, if it is exists, return file
     # if it is not exists, download pic in aws s3
@@ -150,7 +155,9 @@ def init_mysql():
         return jsonify({"status": "error", "content": str(err.args[1])}), 500
 
     date = MysqlOps.get_time()
-    result, err = MysqlOps.insert_photo('tugce123', 'tugce123_' + date)
+    username = "tugce123"
+    filename = username + "_" + date
+    result, err = MysqlOps.insert_photo('tugce123', date, filename)
     print(result)
     print(err)
     if err != None:
