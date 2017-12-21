@@ -1,4 +1,4 @@
-import os
+import os, time
 from flask_mysqldb import MySQL
 
 mysql = MySQL()
@@ -20,8 +20,12 @@ def init(app):
     mysql.init_app(app)
     return app
 
+def get_time():
+    return time.strftime("%Y-%m-%d-%H-%M-%S")
+
 def create_tables():
-    table_sql = """
+    general_sql = """
+    DROP TABLE IF EXISTS `photo`;
     DROP TABLE IF EXISTS `user`;
     CREATE TABLE `user` (
     `userid` int(11) NOT NULL AUTO_INCREMENT,
@@ -31,18 +35,17 @@ def create_tables():
     `email` varchar(100) DEFAULT NULL UNIQUE,
     PRIMARY KEY (`userid`)
     ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-    """
-    photo_sql= """
-    DROP TABLE IF EXISTS `photo`;
+
     CREATE TABLE `photo` (
-    `photoid` int(11) NOT NULL AUTO INCREMENT,
-    `userid` int(11) NOT NULL,
+    `photoid` int(11) NOT NULL AUTO_INCREMENT,
+    `username` varchar(100) NOT NULL,
+    `date` varchar(100) NOT NULL,
     PRIMARY KEY (`photoid`),
-    FOREIGN KEY (userid) REFERENCES user(userid) ON DELETE CASCADE
+    FOREIGN KEY (username) REFERENCES user(username) ON DELETE CASCADE
     ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
     """
     cur = mysql.connection.cursor()
-    cur.execute(table_sql)
+    cur.execute(general_sql)
     data = cur.fetchall()
     return data, None
 
@@ -51,6 +54,17 @@ def insert_user(username, fullname, password, email):
         cur = mysql.connection.cursor()
         cur.execute("INSERT INTO `user` (username, fullname, password,email) VALUES(%s,%s,%s,%s)",
                     (username, fullname, password, email))
+        mysql.connection.commit()
+        return "", None # No problem
+    except Exception as e:
+        print(e)
+        return "", e    # Yes, we have problem
+
+def insert_photo(username, date):
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO `photo` (username, date) VALUES(%s,%s)",
+                    (username, date))
         mysql.connection.commit()
         return "", None # No problem
     except Exception as e:
