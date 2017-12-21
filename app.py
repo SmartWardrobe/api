@@ -51,7 +51,7 @@ def uploader_file():
         # check if the post request has the file part
         print(request.files)
         if 'file' not in request.files:
-            flash('No file part')
+            #flash('No file part')
             print("No file part")
             return "Haaaaaa"#redirect(request.url)
 
@@ -61,7 +61,7 @@ def uploader_file():
         # submit a empty part without filename
         print("4.cu kisim")
         if file.filename == '':
-            flash('No selected file')
+            #flash('No selected file')
             return redirect(request.url)
         if file and Util.allowed_file(file.filename):
             filename = secure_filename(file.filename)
