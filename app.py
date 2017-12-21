@@ -46,14 +46,20 @@ def uploaded_file(filename):
     
 @app.route('/uploader', methods = ['POST'])
 def uploader_file():
+    print("ILk kisim: ", request.method)
     if request.method == 'POST':
         # check if the post request has the file part
+        print(request.files)
         if 'file' not in request.files:
             flash('No file part')
-            return redirect(request.url)
+            print("No file part")
+            return "Haaaaaa"#redirect(request.url)
+
+        print("3.cu kisim")
         file = request.files['file']
         # if user does not select file, browser also
         # submit a empty part without filename
+        print("4.cu kisim")
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
