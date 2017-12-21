@@ -61,9 +61,8 @@ def insert_user(username, fullname, password, email):
         print(e)
         return "", e    # Yes, we have problem
 
-def insert_photo(username, date):
+def insert_photo(username, date, filename):
     try:
-        filename = username + "_" + date
         cur = mysql.connection.cursor()
         cur.execute("INSERT INTO `photo` (username, date, filename) VALUES(%s,%s, %s)",
                     (username, date, filename))
@@ -131,3 +130,13 @@ def delete_user_by_username(username):
     except Exception as e:
         print(e)
         return "", e
+
+def get_user_pics_by_username(username):
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT `filename` FROM `photo` WHERE `username`='{0}'".format(username))
+        pics = cur.fetchall()
+        return pics, None # No problem
+    except Exception as e:
+        print(e)
+        return "", e    # Yes, we have problem
