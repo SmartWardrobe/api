@@ -1,9 +1,11 @@
-import os, json
+import os, json, pprint
 import requests
-import pprint
 from flask import Flask, request, jsonify, render_template, redirect, url_for, send_from_directory, flash
 from werkzeug.utils import secure_filename
 from flask import Flask, request, jsonify
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv(), override=True)
+
 import MysqlOps
 import Util
 
@@ -63,7 +65,6 @@ def uploader_file():
             return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
 
-
 @app.route('/')
 def index():
     return jsonify({"status": "okey", "content": "Shut up, bitch!"}), 200
@@ -92,6 +93,8 @@ def temperature(city):
 @app.route("/v1/mysql_test")
 def hello():
     data, err = MysqlOps.get_version()
+    print(data)
+    print(err)
     if err == None:
         return jsonify({"status": "okey", "content": "Ayaktayim, yikilmadim. " + str(data)}), 200
 
@@ -101,7 +104,10 @@ def hello():
 def init_mysql():
     result, err = MysqlOps.create_tables()
     print(result)
+    print(err)
     result, err = MysqlOps.insert_user('tugce123', 'Tugce Cetinkaya', '12345', 'tugce@gmail.com')
+    print(result)
+    print(err)
     if err == None:
         return jsonify({"status": "okey", "content": "Tablo yeniden olusturuldu."}), 200
     
@@ -113,6 +119,8 @@ def create_user():
     data = request.get_json()  # Json datasi istegin icinden alinir.
     print(data)
     result, err = MysqlOps.insert_user(data['username'], data['fullname'], data['password'], data['email'])
+    print(result)
+    print(err)
     if err == None:
         return jsonify({"status": "okey", "content": "Kayit basarili, User olusturdum."}), 200
     
@@ -122,6 +130,8 @@ def create_user():
 @app.route("/v1/show_users", methods=["GET"])
 def showusers():
     users_info, err = MysqlOps.get_users()
+    print(users_info)
+    print(err)
     if err == None:
         return jsonify({"status": "okey", "data": users_info}),200
 
@@ -132,6 +142,8 @@ def showusers():
 def get_user_information(username):
     print("Okunacak username: ", username)
     result, err = MysqlOps.get_user_information_by_username(username)
+    print(result)
+    print(err)
     if err == None:
         return jsonify({"status": "okey", "data": result}), 200
 
@@ -145,6 +157,8 @@ def update_user_information(currentusername):
     print(data)
     print("Guncellenecek username: ", currentusername, " Ve degistirilecek data: ", data)
     result, err = MysqlOps.update_user_information_by_username(currentusername, data)
+    print(result)
+    print(err)
     if err == None:
         return jsonify({"status": "okey", "data": data}), 200
     return jsonify({"status": "error", "content": str(err.args[1])}), 500
@@ -154,6 +168,8 @@ def update_user_information(currentusername):
 def delete_user(username):
     print("Silinecek username: ", username)
     result, err = MysqlOps.delete_user_by_username(username)
+    print(result)
+    print(err)
     if err == None:
         return jsonify({"status": "okey", "content": "fuck off"}), 200
 
