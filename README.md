@@ -12,6 +12,12 @@ Projenin Api Test reposu : https://github.com/erginipekci7/api-flask-test
 # Proje Yapisi
 <h4>Burasi guncellenmeli. Detayli bir sekilde proje anlatilmali.</h4>
 
+<h4>REST API mantigi, CRUD islemlerini methodlarla ayirmak.</h4>
+<li> GET       - READ  islemleri</li>
+<li> POST      - CREATE islemleri</li>
+<li> PUT       - UPDATE islemleri</li>
+<li> DELETE    - DELETE islemleri</li>
+
 # API - Routes
 
 | Method  | Path                   | Description                                   |
