@@ -19,7 +19,7 @@ def upload_pic_to_s3_bucket(data, filename):
 
 def download_pic_in_s3_bucket(filename):
     try:
-        s3.Bucket(BUCKET_NAME).download_file(filename, 'pics/' + filename)
+        s3.Bucket(BUCKET_NAME).download_file(filename, 'uploads/' + filename)
     except botocore.exceptions.ClientError as e:
         if e.response['Error']['Code'] == "404":
             print("The object does not exist.")

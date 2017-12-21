@@ -201,7 +201,7 @@ def init_mysql():
     if err != None:
         return jsonify({"status": "error", "content": str(err.args[1])}), 500
 
-    with open("pics/efuli.png", "rb") as file:
+    with open("uploads/efuli.png", "rb") as file:
         AwsOps.upload_pic_to_s3_bucket(file, 'tugce123_' + date)
 
     return jsonify({"status": "okey", "content": "Tablolar olusturuldu.Ve hazir kisi ve photo eklendi."}), 200
