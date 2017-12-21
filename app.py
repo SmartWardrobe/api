@@ -138,13 +138,13 @@ def get_user_pics_list(username):
 
     return jsonify({"status": "error", "content": str(err.args[1])}), 500
 
-@app.route('/v1/pic/<string:photoid>', methods=["GET"])
-def get_pic_by_photoid(photoid):
+@app.route('/v1/pic/<string:photoname>', methods=["GET"])
+def get_pic_by_photoname(photoname):
     # first check pics directory, if it is exists, return file
     # if it is not exists, download pic in aws s3
     # AwsOps.download_pic_in_s3_bucket(username + "_" + filename)
     # then return file
-    return ""
+    return send_from_directory(app.config['UPLOAD_FOLDER'], photoname)
 
 @app.route('/')
 def index():
