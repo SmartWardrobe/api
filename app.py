@@ -76,6 +76,44 @@ def uploader_file():
             #return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
             return "Yaaaaaa"
 
+
+@app.route('/v1/upload/pic', methods=["POST"])
+def upload_pic():
+    """
+        get file in request.file
+        saves in pics directory
+        save photo info in mysql
+        save photo aws s3 bucket
+    """
+    data = request.get_json()  # Json datasi istegin icinden alinir.
+    date = MysqlOps.get_time()
+    username = data.get("username", "anonymus")
+    filename = MysqlOps.create_filename(username, date)
+    filename = secure_filename(filename)
+
+    file = request.files.get('file', None)
+    if file is None:
+        return jsonify({"status": "error", "content": "the post request has the file part"}), 500
+    else :
+        if file.filename == '':
+            print("No selected file")
+            return jsonify({"status": "error", "content": "No selected file"}), 500
+
+        if file and Util.allowed_file(file.filename):
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        
+        
+    result, err = MysqlOps.insert_photo(username, date, filename)
+    if err:
+        return jsonify({"status": "error", "content": str(err.args[1])}), 500
+    
+    AwsOps.upload_pic_to_s3_bucket(file.read(), filename)
+    """
+    with open("pics/efuli.png", "rb") as file:
+        AwsOps.upload_pic_to_s3_bucket(file, 'efuli.png')
+    """
+    return jsonify({"status": "okey", "content": "okey i uploaded"}), 200
+
 @app.route('/v1/show/pics')
 def show_pics():
     allofpic = ["uploads/" + pic for pic in os.listdir('uploads')]
@@ -156,7 +194,7 @@ def init_mysql():
 
     date = MysqlOps.get_time()
     username = "tugce123"
-    filename = username + "_" + date
+    filename = MysqlOps.create_filename(username, date)
     result, err = MysqlOps.insert_photo('tugce123', date, filename)
     print(result)
     print(err)
