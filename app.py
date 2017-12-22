@@ -160,7 +160,7 @@ def init_project():
 
 @app.route('/v1/show/pics')
 def show_pics():
-    allofpic = ["uploads/" + pic for pic in os.listdir('uploads')]
+    allofpic = ["/v1/pic/" + pic for pic in os.listdir('uploads')]
     print(allofpic)
     return render_template('pictures.html', pics=allofpic)
 
