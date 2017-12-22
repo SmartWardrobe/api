@@ -9,7 +9,7 @@ Projenin Api reposi: https://github.com/erginipekci7/api-flask
 
 Projenin Api Test reposu : https://github.com/erginipekci7/api-flask-test
 
-# Proje Yapisi
+# Proje Dokumani
 <h4>Burasi guncellenmeli. Detayli bir sekilde proje anlatilmali.</h4>
 
 <h4>REST API mantigi, CRUD islemlerini methodlarla ayirmak.</h4>
@@ -27,7 +27,7 @@ Projenin Api Test reposu : https://github.com/erginipekci7/api-flask-test
 | GET     | /v1/mysql_test            | Mysql'in calisip calismadigi kontrol edilir.                            |
 | GET     | /v1/project_init          | Mysql'e hazir tablolar ve kullanicilar eklenir. Aws'e resim yukler.     |
 | GET     | /v1/upload                | upload.html dosyasini render eder.                                      |
-| POST    | /v1/upload/pic            | Fotograf'i uploads dizinine kaydeder.                                   |
+| POST    | /v1/uploader              | Fotograf'i uploads dizinine kaydeder.                                   |
 | POST    | /v2/upload/pic            | Aws'e fotograf'i, mysql'e de fotograf bilgilerini kaydeder.             |
 | GET     | /v1/pic/:photoname        | Fotograf'i indirir.                                                     |
 | GET     | /v1/show/pics             | uploads dizinindeki fotograflari gosterir.                              |
@@ -69,3 +69,8 @@ Projenin Api Test reposu : https://github.com/erginipekci7/api-flask-test
 
 # Aws - S3
 Aws cli ile login olmak ve s3 dosya atmayi bu videodan bulabilirsiniz.[Getting Started with AWS S3 CLI](https://www.youtube.com/watch?v=WrVqrvIQRAI)
+
+# Flask - Proje Yapisi
+[How to structure large flask apps](https://www.digitalocean.com/community/tutorials/how-to-structure-large-flask-applications)
+
+[Appfactories](http://flask.pocoo.org/docs/0.10/patterns/appfactories/)
