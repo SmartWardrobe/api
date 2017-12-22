@@ -32,11 +32,6 @@ def after_request(resp):
 def upload_file():
    return render_template('upload.html')
 
-@app.route('/v1/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'],
-                               filename)
-    
 @app.route('/v1/uploader', methods = ['POST'])
 def uploader_file():
     print("ILk kisim: ", request.method)
