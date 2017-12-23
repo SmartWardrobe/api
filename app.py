@@ -30,7 +30,7 @@ def after_request(resp):
 
 @app.route('/v1/upload')
 def upload_file():
-   return render_template('upload.html')
+    return render_template('upload.html')
 
 @app.route('/v1/uploader', methods = ['POST'])
 def uploader_file():
@@ -82,25 +82,27 @@ def upload_pic():
     file = request.files.get('file', None)
     if file is None:
         return jsonify({"status": "error", "content": "the post request has the file part"}), 500
-    else:
-        if file.filename == '':
-            print("No selected file")
-            return jsonify({"status": "error", "content": "No selected file"}), 500
 
-        if file and Util.allowed_file(file.filename):
-            realfilename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], realfilename))
-     
-    filename, err = MysqlOps.insert_photo(username, realfilename)
-    if err:
-        return jsonify({"status": "error", "content": str(err.args[1])}), 500
+    if file.filename == '':
+        print("No selected file")
+        return jsonify({"status": "error", "content": "No selected file"}), 500
 
-    AwsOps.upload_pic_to_s3_bucket(file.read(), filename)
-    """
-    with open("pics/efuli.png", "rb") as file:
-        AwsOps.upload_pic_to_s3_bucket(file, 'efuli.png')
-    """
-    return jsonify({"status": "okey", "content": "okey i uploaded"}), 200
+    if file and Util.allowed_file(file.filename):
+        realfilename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], realfilename))
+
+        filename, err = MysqlOps.insert_photo(username, realfilename)
+        if err:
+            return jsonify({"status": "error", "content": str(err.args[1])}), 500
+
+        AwsOps.upload_pic_to_s3_bucket(file.read(), filename)
+        """
+        with open("pics/efuli.png", "rb") as file:
+            AwsOps.upload_pic_to_s3_bucket(file, 'efuli.png')
+        """
+        return jsonify({"status": "okey", "content": "okey i uploaded"}), 200
+
+    return jsonify({"status": "error", "content": "Not allowed file"}), 500
 
 @app.route('/v1/pic/<string:photoname>', methods=["GET"])
 def get_pic_by_photoname(photoname):
@@ -132,7 +134,7 @@ def hello():
     data, err = MysqlOps.get_version()
     print(data)
     print(err)
-    if err == None:
+    if err is None:
         return jsonify({"status": "okey", "content": "Ayaktayim, yikilmadim. " + str(data)}), 200
 
     return jsonify({"status": "error", "content": str(err.args[1])}), 500
@@ -160,7 +162,12 @@ def init_project():
     ]
 
     for user in users:
-        result, err = MysqlOps.insert_user(user['username'], user['fullname'], user['password'], user['email'])
+        result, err = MysqlOps.insert_user(
+            user['username'],
+            user['fullname'],
+            user['password'],
+            user['email']
+        )
         print(result)
         print(err)
         if err != None:
@@ -172,25 +179,9 @@ def init_project():
         if err != None:
             return jsonify({"status": "error", "content": str(err.args[1])}), 500
 
-        with open("uploads/efuli.png", "rb") as file:
+        with open("uploads/" + user["photoname"], "rb") as file:
             AwsOps.upload_pic_to_s3_bucket(file, filename)
-        """
-        result, err = MysqlOps.insert_user('tugce123', 'Tugce Cetinkaya', '12345', 'tugce@gmail.com')
-        print(result)
-        print(err)
-        if err != None:
-            return jsonify({"status": "error", "content": str(err.args[1])}), 500
 
-        realphotoname = "efuli.png"
-        filename, err = MysqlOps.insert_photo('tugce123', realphotoname)
-        print(result)
-        print(err)
-        if err != None:
-            return jsonify({"status": "error", "content": str(err.args[1])}), 500
-
-        with open("uploads/efuli.png", "rb") as file:
-            AwsOps.upload_pic_to_s3_bucket(file, filename)
-        """
     return jsonify({"status": "okey", "content": "Tablolar olusturuldu.Ve hazir kisi ve photo eklendi."}), 200
 
 @app.route('/v1/show/pics')
@@ -215,12 +206,17 @@ def show_buckets_N_files():
 def create_user():
     data = request.get_json()  # Json datasi istegin icinden alinir.
     print(data)
-    result, err = MysqlOps.insert_user(data['username'], data['fullname'], data['password'], data['email'])
+    result, err = MysqlOps.insert_user(
+        data['username'],
+        data['fullname'],
+        data['password'],
+        data['email']
+    )
     print(result)
     print(err)
-    if err == None:
+    if err is None:
         return jsonify({"status": "okey", "content": "Kayit basarili, User olusturdum."}), 200
-    
+
     return jsonify({"status": "error", "content": str(err.args[1])}), 500
 
 # "/v1/users" router'ina normal istek atilir. Database kayitli user lari gosterir
@@ -229,8 +225,8 @@ def get_users():
     users_info, err = MysqlOps.get_users()
     print(users_info)
     print(err)
-    if err == None:
-        return jsonify({"status": "okey", "data": users_info}),200
+    if err is None:
+        return jsonify({"status": "okey", "data": users_info}), 200
 
     return jsonify({"status": "error", "content": str(err.args[1])}), 500
 
@@ -241,7 +237,7 @@ def get_user_information(username):
     result, err = MysqlOps.get_user_information_by_username(username)
     print(result)
     print(err)
-    if err == None:
+    if err is None:
         return jsonify({"status": "okey", "data": result}), 200
 
     return jsonify({"status": "error", "content": str(err.args[1])}), 500  # 'email or username is not unique'
@@ -253,7 +249,7 @@ def get_user_pics_list(username):
         return filename list
     """
     pics, err = MysqlOps.get_user_pics_by_username(username)
-    if err == None:
+    if err is None:
         return jsonify({"status": "okey", "data": pics}), 200
 
     return jsonify({"status": "error", "content": str(err.args[1])}), 500
@@ -267,7 +263,7 @@ def update_user_information(currentusername):
     result, err = MysqlOps.update_user_information_by_username(currentusername, data)
     print(result)
     print(err)
-    if err == None:
+    if err is None:
         return jsonify({"status": "okey", "data": data}), 200
     return jsonify({"status": "error", "content": str(err.args[1])}), 500
 
@@ -278,7 +274,7 @@ def delete_user(username):
     result, err = MysqlOps.delete_user_by_username(username)
     print(result)
     print(err)
-    if err == None:
+    if err is None:
         return jsonify({"status": "okey", "content": "fuck off"}), 200
 
     return jsonify({"status": "error", "content": str(err.args[1])}), 500
