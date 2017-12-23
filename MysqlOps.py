@@ -11,8 +11,11 @@ insert_sql = [
 ]
 """
 def init(app):
-    # mysql bilgilerini .env uzantili dosyanini icine yerlestiriyoruz. 'dotenv' ile mysql bilgilerini cekerek
-    # buradan  gerekli bagalntilari sagliyoruz.
+    """
+        mysql bilgilerini .env uzantili dosyanini icine yerlestiriyoruz.
+        'dotenv' ile mysql bilgilerini cekerek
+        buradan  gerekli bagalntilari sagliyoruz.
+    """
     app.config['MYSQL_USER'] = os.environ.get("MYSQL_USER")
     app.config['MYSQL_PASSWORD'] = os.environ.get("MYSQL_PASSWORD")
     app.config['MYSQL_DB'] = os.environ.get("MYSQL_DB")
@@ -23,8 +26,8 @@ def init(app):
 def get_time():
     return time.strftime("%Y-%m-%d-%H-%M-%S")
 
-def create_filename(username, date):
-    return username + "_" + date
+def create_filename(username, date, extension):
+    return username + "_" + date + extension
 
 def create_tables():
     general_sql = """
@@ -64,13 +67,17 @@ def insert_user(username, fullname, password, email):
         print(e)
         return "", e    # Yes, we have problem
 
-def insert_photo(username, date, filename):
+def insert_photo(username, realphotoname):
+    date = get_time()
+    extension = os.path.splitext(realphotoname)[1]
+    filename = create_filename(username, date, extension)
+    print(date, extension, filename)
     try:
         cur = mysql.connection.cursor()
         cur.execute("INSERT INTO `photo` (username, date, filename) VALUES(%s,%s, %s)",
                     (username, date, filename))
         mysql.connection.commit()
-        return "", None # No problem
+        return filename, None # No problem
     except Exception as e:
         print(e)
         return "", e    # Yes, we have problem
@@ -140,6 +147,28 @@ def get_user_pics_by_username(username):
         cur.execute("SELECT `filename` FROM `photo` WHERE `username`='{0}'".format(username))
         pics = cur.fetchall()
         return pics, None # No problem
+    except Exception as e:
+        print(e)
+        return "", e    # Yes, we have problem
+
+def is_photo_exists(photoname):
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM `photo` WHERE `filename`='{0}'".format(photoname))
+        result = cur.fetchall()
+        if result:
+            return True
+        return False
+    except Exception as e:
+        print(e)
+        return False
+
+def get_photonames():
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT `filename` FROM `photo`")
+        photonames = cur.fetchall()
+        return photonames, None # No problem
     except Exception as e:
         print(e)
         return "", e    # Yes, we have problem
