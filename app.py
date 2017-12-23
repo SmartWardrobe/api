@@ -77,25 +77,24 @@ def upload_pic():
     data = request.get_json()  # Json datasi istegin icinden alinir.
     date = MysqlOps.get_time()
     username = data.get("username", "anonymus")
-    filename = MysqlOps.create_filename(username, date)
-    filename = secure_filename(filename)
+    realfilename = ""
 
     file = request.files.get('file', None)
     if file is None:
         return jsonify({"status": "error", "content": "the post request has the file part"}), 500
-    else :
+    else:
         if file.filename == '':
             print("No selected file")
             return jsonify({"status": "error", "content": "No selected file"}), 500
 
         if file and Util.allowed_file(file.filename):
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        
-        
-    result, err = MysqlOps.insert_photo(username, date, filename)
+            realfilename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], realfilename))
+     
+    filename, err = MysqlOps.insert_photo(username, realfilename)
     if err:
         return jsonify({"status": "error", "content": str(err.args[1])}), 500
-    
+
     AwsOps.upload_pic_to_s3_bucket(file.read(), filename)
     """
     with open("pics/efuli.png", "rb") as file:
@@ -108,10 +107,15 @@ def get_pic_by_photoname(photoname):
     """
         first check pics directory, if it is exists, return file
         if it is not exists, download pic in aws s3
-        AwsOps.download_pic_in_s3_bucket(username + "_" + filename)
         then return file
     """
-    return send_from_directory(app.config['UPLOAD_FOLDER'], photoname)
+    filepath = app.config['UPLOAD_FOLDER'] + '/' + photoname
+    if os.path.exists(filepath):
+        return send_from_directory(app.config['UPLOAD_FOLDER'], photoname)
+    elif MysqlOps.is_photo_exists(photoname):
+        AwsOps.download_pic_in_s3_bucket(photoname)
+        return send_from_directory(app.config['UPLOAD_FOLDER'], photoname)
+    return "I'm sorry"
 
 @app.route('/')
 def index():
@@ -138,24 +142,55 @@ def init_project():
     result, err = MysqlOps.create_tables()
     print(result)
     print(err)
-    result, err = MysqlOps.insert_user('tugce123', 'Tugce Cetinkaya', '12345', 'tugce@gmail.com')
-    print(result)
-    print(err)
-    if err != None:
-        return jsonify({"status": "error", "content": str(err.args[1])}), 500
+    users = [
+        {
+            "username": "tugce123",
+            "fullname": "Tugce Cetinkaya",
+            "password": "12345",
+            "email": "tugce@gmail.com",
+            "photoname": "tugce.jpg"
+        },
+        {
+            "username": "ergin123",
+            "fullname": "Ergin Cetinhafif",
+            "password": "12345",
+            "email": "ergin@gmail.com",
+            "photoname": "efuli.png"
+        },
+    ]
 
-    date = MysqlOps.get_time()
-    username = "tugce123"
-    filename = MysqlOps.create_filename(username, date)
-    result, err = MysqlOps.insert_photo('tugce123', date, filename)
-    print(result)
-    print(err)
-    if err != None:
-        return jsonify({"status": "error", "content": str(err.args[1])}), 500
+    for user in users:
+        result, err = MysqlOps.insert_user(user['username'], user['fullname'], user['password'], user['email'])
+        print(result)
+        print(err)
+        if err != None:
+            return jsonify({"status": "error", "content": str(err.args[1])}), 500
 
-    with open("uploads/efuli.png", "rb") as file:
-        AwsOps.upload_pic_to_s3_bucket(file, 'tugce123_' + date)
+        filename, err = MysqlOps.insert_photo(user['username'], user['photoname'])
+        print(result)
+        print(err)
+        if err != None:
+            return jsonify({"status": "error", "content": str(err.args[1])}), 500
 
+        with open("uploads/efuli.png", "rb") as file:
+            AwsOps.upload_pic_to_s3_bucket(file, filename)
+        """
+        result, err = MysqlOps.insert_user('tugce123', 'Tugce Cetinkaya', '12345', 'tugce@gmail.com')
+        print(result)
+        print(err)
+        if err != None:
+            return jsonify({"status": "error", "content": str(err.args[1])}), 500
+
+        realphotoname = "efuli.png"
+        filename, err = MysqlOps.insert_photo('tugce123', realphotoname)
+        print(result)
+        print(err)
+        if err != None:
+            return jsonify({"status": "error", "content": str(err.args[1])}), 500
+
+        with open("uploads/efuli.png", "rb") as file:
+            AwsOps.upload_pic_to_s3_bucket(file, filename)
+        """
     return jsonify({"status": "okey", "content": "Tablolar olusturuldu.Ve hazir kisi ve photo eklendi."}), 200
 
 @app.route('/v1/show/pics')
@@ -163,6 +198,11 @@ def show_pics():
     allofpic = ["/v1/pic/" + pic for pic in os.listdir('uploads')]
     print(allofpic)
     return render_template('pictures.html', pics=allofpic)
+
+@app.route('/v1/show/photonames')
+def show_photonames():
+    photonames = MysqlOps.get_photonames()
+    return render_template('photonames.html', photonames=photonames[0])
 
 @app.route('/v1/show/bucketsNfiles')
 def show_buckets_N_files():
@@ -247,16 +287,18 @@ def delete_user(username):
 def temperature(city):
     """
     https://home.openweathermap.org
-    Activation of an API key for Free and Startup accounts takes 10 minutes. For other accounts it takes from 10 to 60 minutes.
-    You can generate as many API keys as needed for your subscription. We accumulate the total load from all of them. 
+    Activation of an API key for Free and Startup accounts takes 10 minutes.
+    For other accounts it takes from 10 to 60 minutes.
+    You can generate as many API keys as needed for your subscription.
+    We accumulate the total load from all of them.
     """
     r = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+ city +"&appid=" + os.environ.get("OPENWEATHER_KEY"))
     json_object = r.json()
     pprint.pprint(json_object)
     if json_object["cod"] in [200]:
-        return jsonify({"status": "okey", "content": json_object }), 200
+        return jsonify({"status": "okey", "content": json_object}), 200
     else:
-        return jsonify({"status": "error", "content": "Api'de sorun var!" }), 400
+        return jsonify({"status": "error", "content": "Api'de sorun var!"}), 400
 
 if __name__ == "__main__":
     app.run()
