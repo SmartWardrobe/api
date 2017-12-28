@@ -1,4 +1,8 @@
-import os, json, pprint
+"""
+    Flask App uygulamasi
+"""
+import pprint
+import os
 import requests
 from flask import Flask, request, jsonify, render_template, redirect, send_from_directory
 from werkzeug.utils import secure_filename
