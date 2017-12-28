@@ -148,6 +148,8 @@ def init_project():
     result, err = MysqlOps.create_tables()
     print(result)
     print(err)
+    result = AwsOps.clear_files_in_s3_bucket()
+    print(result)
     users = [
         {
             "username": "tugce123",
