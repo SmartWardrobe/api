@@ -47,3 +47,13 @@ def get_file_list_in_s3_bucket():
         object_list.append(obj.key)
 
     return object_list
+
+def clear_files_in_s3_bucket():
+    bucket = S3.Bucket(BUCKET_NAME)
+    response = bucket.objects.all().delete()
+    return response
+
+def delete_bucket_in_s3():
+    bucket = S3.Bucket(BUCKET_NAME)
+    response = bucket.delete()
+    return response
