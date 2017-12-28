@@ -28,19 +28,22 @@ def download_pic_in_s3_bucket(filename):
             raise
 
 def get_bucket_list_in_s3():
+    """
+        Get bucket list in s3
+    """
     bucket_names = []
-    s3client = boto3.client('s3')
-    response = s3client.list_buckets()
-    for bucket in response["Buckets"]:
-        bucket_names.append(bucket['Name'])
+    for bucket in S3.buckets.all():
+        bucket_names.append(bucket.name)
 
     return bucket_names
 
 def get_file_list_in_s3_bucket():
+    """
+        Get file list in s3 bucket
+    """
     object_list = []
-    s3client = boto3.client('s3')
-    theobjects = s3client.list_objects_v2(Bucket=BUCKET_NAME)
-    for object in theobjects["Contents"]:
-        object_list.append(object["Key"])
+    bucket = S3.Bucket(BUCKET_NAME)
+    for obj in bucket.objects.all():
+        object_list.append(obj.key)
 
     return object_list
