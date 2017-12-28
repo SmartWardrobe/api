@@ -69,6 +69,10 @@ def uploader_file():
             #return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
             return "Yaaaaaa"
 
+@app.route('/v2/upload_form')
+def upload_file_with_form():
+    return render_template('upload_form.html')
+
 @app.route('/v2/upload/pic', methods=["POST"])
 def upload_pic():
     """
