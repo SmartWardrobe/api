@@ -69,7 +69,6 @@ def uploader_file():
             #return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
             return "Yaaaaaa"
 
-
 @app.route('/v2/upload/pic', methods=["POST"])
 def upload_pic():
     """
@@ -79,7 +78,8 @@ def upload_pic():
         save photo aws s3 bucket
     """
     data = request.get_json()  # Json datasi istegin icinden alinir.
-    date = MysqlOps.get_time()
+    if data is None:
+        data = {}
     username = data.get("username", "anonymus")
     realfilename = ""
 
@@ -165,6 +165,13 @@ def init_project():
             "email": "ergin@gmail.com",
             "photoname": "efuli.png"
         },
+        {
+            "username": "anonymus",
+            "fullname": "Anonymus",
+            "password": "12345",
+            "email": "anonymus@anonymus",
+            "photoname": "efuli.png"
+        },
     ]
 
     for user in users:
@@ -199,12 +206,14 @@ def show_pics():
 @app.route('/v1/show/photonames')
 def show_photonames():
     photonames = MysqlOps.get_photonames()
+    print(photonames)
     return render_template('photonames.html', photonames=photonames[0])
 
 @app.route('/v1/show/bucketsNfiles')
 def show_buckets_N_files():
     bucket_list = AwsOps.get_bucket_list_in_s3()
     file_list = AwsOps.get_file_list_in_s3_bucket()
+    print(bucket_list, file_list)
     return render_template('bucketsNfiles.html', buckets=bucket_list, files=file_list)
 
 # "/v1/users" router'ina json datasi ile birlikte istek atilir.(POST)
@@ -255,6 +264,7 @@ def get_user_pics_list(username):
         return filename list
     """
     pics, err = MysqlOps.get_user_pics_by_username(username)
+    print(pics)
     if err is None:
         return jsonify({"status": "okey", "data": pics}), 200
 
