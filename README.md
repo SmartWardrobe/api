@@ -28,7 +28,7 @@ Projenin Api Test reposu : https://github.com/erginipekci7/api-flask-test
 | GET     | /v1/project_init          | Mysql'e hazir tablolar ve kullanicilar eklenir. Aws'e resim yukler.     |
 | GET     | /v1/upload                | upload.html dosyasini render eder.                                      |
 | POST    | /v1/uploader              | Fotograf'i uploads dizinine kaydeder.                                   |
-| POST    | /v2/upload_form           | upload_form.html dosyasini render eder.                                 |
+| GET     | /v2/upload_form           | upload_form.html dosyasini render eder.                                 |
 | POST    | /v2/upload/pic            | Aws'e fotograf'i, mysql'e de fotograf bilgilerini kaydeder.             |
 | GET     | /v1/pic/:photoname        | Fotograf'i indirir.                                                     |
 | GET     | /v1/show/pics             | uploads dizinindeki fotograflari gosterir.                              |
