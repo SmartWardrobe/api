@@ -114,10 +114,11 @@ def get_user_information_by_username(username):
         user_info['fullname'] = row[2]
         user_info['password'] = row[3]
         user_info['email'] = row[4]
+        user_info['pics'] = []
         return user_info, None
     except Exception as e:
         print(e)  # (1026, 'email or username is not unique')
-        return "", e
+        return "", str(e.args[1])
 
 def update_user_information_by_username(currentusername, data):
     try:
@@ -172,3 +173,26 @@ def get_photonames():
     except Exception as e:
         print(e)
         return "", e    # Yes, we have problem
+
+def check_email_password(email, password):
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT username FROM `user` WHERE `email` = '{}' AND `password` = '{}';".format(email, password))
+        row = cur.fetchone()
+        print(row)
+        if row is None:
+            return "", "Not correct email or password"
+        username = row[0]
+        return username, None
+    except Exception as e:
+        print(e)
+        return "", str(e.args[1])
+
+def login(email, password):
+    username, err = check_email_password(email, password)
+    if err is None:
+        result, err = get_user_information_by_username(username)
+        if err is None:
+            return result, None
+
+    return "", err
