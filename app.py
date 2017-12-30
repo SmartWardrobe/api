@@ -82,6 +82,7 @@ def upload_pic():
         save photo aws s3 bucket
     """
     data = request.get_json()  # Json datasi istegin icinden alinir.
+    print(data)
     if data is None:
         data = {}
     username = data.get("username", "anonymus")
@@ -249,6 +250,19 @@ def get_users():
 
     return jsonify({"status": "error", "content": str(err.args[1])}), 500
 
+# "/v1/user" router'ina normal istek atilir. Database kayitli user'in bilgilerini gonderir.
+@app.route("/v1/login", methods=["POST"])
+def login():
+    # curl -H "Content-Type: application/json" -X POST -d '{"email":"tug@gmail.com","password":"12345"}' http://localhost:5000/v1/login
+    data = request.get_json()
+    user_info, err = MysqlOps.login(data["email"], data["password"])
+    print(user_info)
+    print(err)
+    if err is None:
+        return jsonify({"status": "okey", "data": user_info}), 200
+
+    return jsonify({"status": "error", "content": str(err)}), 500
+
 # "/api/user/ergin" veya "/api/user/tugce" normal istek atilir(GET). Ve user nin bilgileri istek atilana geri dondurulur.
 @app.route("/v1/user/<string:username>", methods=["GET"])
 def get_user_information(username):
@@ -259,7 +273,7 @@ def get_user_information(username):
     if err is None:
         return jsonify({"status": "okey", "data": result}), 200
 
-    return jsonify({"status": "error", "content": str(err.args[1])}), 500  # 'email or username is not unique'
+    return jsonify({"status": "error", "content": str(err)}), 500  # 'email or username is not unique'
 
 @app.route('/v1/user/<string:username>/pics', methods=["GET"])
 def get_user_pics_list(username):
