@@ -20,26 +20,28 @@ Projenin Api Test reposu : https://github.com/erginipekci7/api-flask-test
 
 # API - Routers
 
-| Method  | Path                      | Description                                                             |
-| ------- |------------------------   |-------------------------------------------------------------------------|
-| GET     | /                         | Api ayakta olup olmadigi kontrol edilir.                                |
-| GET     | /v1/pingpongjson          | Gelen json'i gonderir.                                                  |
-| GET     | /v1/mysql_test            | Mysql'in calisip calismadigi kontrol edilir.                            |
-| GET     | /v1/project_init          | Mysql'e hazir tablolar ve kullanicilar eklenir. Aws'e resim yukler.     |
-| GET     | /v1/upload                | upload.html dosyasini render eder.                                      |
-| POST    | /v1/uploader              | Fotograf'i uploads dizinine kaydeder.                                   |
-| GET     | /v2/upload_form           | upload_form.html dosyasini render eder.                                 |
-| POST    | /v2/upload/pic            | Aws'e fotograf'i, mysql'e de fotograf bilgilerini kaydeder.             |
-| GET     | /v1/pic/:photoname        | Fotograf'i indirir.                                                     |
-| GET     | /v1/show/pics             | uploads dizinindeki fotograflari gosterir.                              |
-| GET     | /v1/show/photonames       | Mysql deki fotograf listesini gosterir.                                 |
-| GET     | /v1/show/bucketsNfiles    | Aws de bulunan buckets ve files listesi gosterilir.                     |
-| POST    | /v1/users                 | Yeni kullanici olusturulur.                                             |
-| GET     | /v1/user/:username        | Kullanicinin bilgisi doner.                                             |
-| GET     | /v1/user/:username/pics   | Kullanicinin pics listesini doner.                                      |
-| PUT     | /v1/user/:username        | Kullanicinin bilgisi guncellenir.                                       |
-| DELETE  | /v1/user/:username        | Kullanici silinir.                                                      |
-| GET     | /v1/temperature/:city     | Girilen sehrin hava durumu bilgileri doner.                             |
+| Method  | Path                      | Description                                                                 |
+| ------- |------------------------   |-----------------------------------------------------------------------------|
+| GET     | /                         | Api ayakta olup olmadigi kontrol edilir.                                    |
+| GET     | /v1/pingpongjson          | Gelen json'i gonderir.                                                      |
+| GET     | /v1/mysql_test            | Mysql'in calisip calismadigi kontrol edilir.                                |
+| GET     | /v1/project_init          | Mysql'e hazir tablolar ve kullanicilar eklenir. Aws'e resim yukler.         |
+| GET     | /v1/upload                | upload.html dosyasini render eder.                                          |
+| POST    | /v1/uploader              | Fotograf'i uploads dizinine kaydeder.                                       |
+| GET     | /v2/upload_form           | upload_form.html dosyasini render eder.                                     |
+| POST    | /v2/upload/pic            | Aws'e fotograf'i, mysql'e de fotograf bilgilerini kaydeder.                 |
+| GET     | /v1/pic/:photoname        | Fotograf'i indirir.                                                         |
+| POST    | /v1/login                 | Email ve parolaya gore kullaniciyi kontrol eder. Ve kullanici bilgisi doner.|   
+| POST    | /v1/users                 | Yeni kullanici olusturulur.                                                 |
+| GET     | /v1/users                 | Tum kullanicilarin listesini doner.                                         |       
+| GET     | /v1/user/:username        | Kullanicinin bilgisi doner.                                                 |
+| PUT     | /v1/user/:username        | Kullanicinin bilgisi guncellenir.                                           |
+| DELETE  | /v1/user/:username        | Kullanici silinir.                                                          |
+| GET     | /v1/user/:username/pics   | Kullanicinin pics listesini doner.                                          |
+| GET     | /v1/show/pics             | uploads dizinindeki fotograflari gosterir.                                  |
+| GET     | /v1/show/photonames       | Mysql deki fotograf listesini gosterir.                                     |
+| GET     | /v1/show/bucketsNfiles    | Aws de bulunan buckets ve files listesi gosterilir.                         |
+| GET     | /v1/temperature/:city     | Girilen sehrin hava durumu bilgileri doner.                                 |
 
 
 # Localde Güncelleme Yapmak
