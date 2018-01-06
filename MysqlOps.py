@@ -1,4 +1,5 @@
 import os, time
+import hashlib
 from flask_mysqldb import MySQL
 
 mysql = MySQL()
@@ -68,9 +69,12 @@ def insert_user(username, fullname, password, email):
         return "", e    # Yes, we have problem
 
 def insert_photo(username, realphotoname):
+    # We must create hash
     date = get_time()
     extension = os.path.splitext(realphotoname)[1]
-    filename = create_filename(username, date, extension)
+    filenamestring = username + date + extension
+    hash_object = hashlib.md5(filenamestring.encode())
+    filename = hash_object.hexdigest() + extension
     print(date, extension, filename)
     try:
         cur = mysql.connection.cursor()
