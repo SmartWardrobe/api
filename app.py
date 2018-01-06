@@ -105,6 +105,7 @@ def upload_pic():
         with open("pics/efuli.png", "rb") as file:
             AwsOps.upload_pic_to_s3_bucket(file, 'efuli.png')
         """
+        print(filename)
         return jsonify({"status": "okey", "filename": filename}), 200
 
     return jsonify({"status": "error", "content": "Not allowed file"}), 500
