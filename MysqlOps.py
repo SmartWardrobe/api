@@ -129,8 +129,12 @@ def get_user_information_by_username(username):
         user_info['fullname'] = row[2]
         user_info['password'] = row[3]
         user_info['email'] = row[4]
-        user_info['pics'] = []
-        return user_info, None
+        pics, err = get_user_pics_by_username(user_info['username'])
+        if err is None:
+            user_info['pics'] = pics
+            return user_info, None
+
+        return "", err
     except Exception as e:
         print(e)  # (1026, 'email or username is not unique')
         return "", str(e.args[1])
