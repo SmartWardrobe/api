@@ -81,11 +81,7 @@ def upload_pic():
         save photo info in mysql
         save photo aws s3 bucket
     """
-    data = request.get_json()  # Json datasi istegin icinden alinir.
-    print(data)
-    if data is None:
-        data = {}
-    username = data.get("username", "anonymus")
+    username = "anonymus"
     realfilename = ""
 
     file = request.files.get('file', None)
@@ -109,7 +105,7 @@ def upload_pic():
         with open("pics/efuli.png", "rb") as file:
             AwsOps.upload_pic_to_s3_bucket(file, 'efuli.png')
         """
-        return jsonify({"status": "okey", "content": "okey i uploaded"}), 200
+        return jsonify({"status": "okey", "filename": filename}), 200
 
     return jsonify({"status": "error", "content": "Not allowed file"}), 500
 
@@ -157,12 +153,21 @@ def init_project():
     print(result)
     users = [
         {
+            "username": "anonymus",
+            "fullname": "Anonymus",
+            "password": "12345",
+            "email": "anonymus@anonymus",
+            "photoname": "efuli.png"
+        },
+        {
             "username": "tugce123",
             "fullname": "Tugce Cetinkaya",
             "password": "12345",
             "email": "tugce@gmail.com",
             "photoname": "tugce.jpg"
-        },
+        }
+    ]
+    """,
         {
             "username": "ergin123",
             "fullname": "Ergin Cetinhafif",
@@ -177,7 +182,7 @@ def init_project():
             "email": "anonymus@anonymus",
             "photoname": "efuli.png"
         },
-    ]
+    """
 
     for user in users:
         result, err = MysqlOps.insert_user(
