@@ -31,6 +31,7 @@ Projenin Api Test reposu : https://github.com/erginipekci7/api-flask-test
 | GET     | /v2/upload_form           | upload_form.html dosyasini render eder.                                     |
 | POST    | /v2/upload/pic            | Aws'e fotograf'i, mysql'e de fotograf bilgilerini kaydeder.                 |
 | GET     | /v1/pic/:photoname        | Fotograf'i indirir.                                                         |
+| PUT     | /v1/pic                   | Fotograf guncelleniyor.                                                     |
 | POST    | /v1/login                 | Email ve parolaya gore kullaniciyi kontrol eder. Ve kullanici bilgisi doner.|   
 | POST    | /v1/users                 | Yeni kullanici olusturulur.                                                 |
 | GET     | /v1/users                 | Tum kullanicilarin listesini doner.                                         |       
