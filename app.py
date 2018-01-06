@@ -143,6 +143,7 @@ def index():
 @app.route("/v1/pingpongjson", methods=["POST"])
 def pingpongjson():
     data = request.get_json()           # Json datasi istegin icinden alinir.
+    print(data)
     return jsonify({data}), 200
 
 # "/mysql_test" router'ina istek geldiginde api'nin ayakta oldugu anlamak icin kullandik.
