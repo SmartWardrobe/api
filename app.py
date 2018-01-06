@@ -27,47 +27,8 @@ def after_request(resp):
     resp.headers.add('Access-Control-Allow-Origin', '*')
     resp.headers.add('Access-Control-Allow-Headers', 'Content-Type, X-Token')
     resp.headers.add('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
-    #resp.headers['Content-Type'] = 'application/json'
     resp.headers['server'] = 'BitirmeServer'
     return resp
-
-
-@app.route('/v1/upload')
-def upload_file():
-    return render_template('upload.html')
-
-@app.route('/v1/uploader', methods = ['POST'])
-def uploader_file():
-    print("ILk kisim: ", request.method)
-    if request.method == 'POST':
-        # check if the post request has the file part
-        print(request.files)
-        if 'file' not in request.files:
-            #flash('No file part')
-            print("No file part")
-            return "Haaaaaa"#redirect(request.url)
-
-        print("3.cu kisim")
-        file = request.files['file']
-        # if user does not select file, browser also
-        # submit a empty part without filename
-        print("4.cu kisim")
-        print("file.filename: ", file.filename)
-        if file.filename == '':
-            #flash('No selected file')
-            return redirect(request.url)
-
-        print("5.ci kisim")
-        if file and Util.allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            print("filename:", filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            #return json.dumps({'filename':filename})
-            #return redirect(url_for('uploaded_file',
-                                  # filename=filename))
-
-            #return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
-            return "Yaaaaaa"
 
 @app.route('/v2/upload_form')
 def upload_file_with_form():
@@ -105,7 +66,7 @@ def upload_pic():
         with open("pics/efuli.png", "rb") as file:
             AwsOps.upload_pic_to_s3_bucket(file, 'efuli.png')
         """
-        print(filename)
+        print("Uploaded: {}".format(filename))
         return jsonify({"status": "okey", "filename": filename}), 200
 
     return jsonify({"status": "error", "content": "Not allowed file"}), 500
@@ -117,6 +78,7 @@ def get_pic_by_photoname(photoname):
         if it is not exists, download pic in aws s3
         then return file
     """
+    print(photoname)
     filepath = app.config['UPLOAD_FOLDER'] + '/' + photoname
     if os.path.exists(filepath):
         return send_from_directory(app.config['UPLOAD_FOLDER'], photoname)
