@@ -124,6 +124,18 @@ def get_pic_by_photoname(photoname):
         return send_from_directory(app.config['UPLOAD_FOLDER'], photoname)
     return "I'm sorry"
 
+@app.route('/v1/pic', methods=["PUT"])
+def update_pic(photoname):
+    data = request.get_json()
+    print(data)
+    filename = data['filename']
+    color = data['color']
+    filename, err = MysqlOps.update_photo(filename, color)
+    if err is None:
+        return jsonify({"status": "okey", "filename": filename}), 200
+
+    return jsonify({"status": "error", "content": err}), 500
+
 @app.route('/')
 def index():
     return jsonify({"status": "okey", "content": "Shut up, bitch!"}), 200
