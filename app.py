@@ -61,11 +61,10 @@ def upload_pic():
         if err:
             return jsonify({"status": "error", "content": str(err.args[1])}), 500
 
-        AwsOps.upload_pic_to_s3_bucket(file.read(), filename)
-        """
-        with open("pics/efuli.png", "rb") as file:
-            AwsOps.upload_pic_to_s3_bucket(file, 'efuli.png')
-        """
+        #AwsOps.upload_pic_to_s3_bucket(file.read(), filename)
+        with open("uploads/{}".format(realfilename), "rb") as file:
+            AwsOps.upload_pic_to_s3_bucket(file, filename)
+
         print("Uploaded: {}".format(filename))
         return jsonify({"status": "okey", "filename": filename}), 200
 
