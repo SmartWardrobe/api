@@ -48,6 +48,7 @@ def create_tables():
     `username` varchar(100) NOT NULL,
     `date` varchar(100) NOT NULL,
     `filename` varchar(100) NOT NULL,
+    `color` varchar(15),
     PRIMARY KEY (`photoid`),
     FOREIGN KEY (username) REFERENCES user(username) ON DELETE CASCADE
     ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
@@ -60,7 +61,7 @@ def create_tables():
 def insert_user(username, fullname, password, email):
     try:
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO `user` (username, fullname, password,email) VALUES(%s,%s,%s,%s)",
+        cur.execute("INSERT INTO `user` (username, fullname, password, email) VALUES(%s,%s,%s,%s)",
                     (username, fullname, password, email))
         mysql.connection.commit()
         return "", None # No problem
@@ -85,6 +86,16 @@ def insert_photo(username, realphotoname):
     except Exception as e:
         print(e)
         return "", e    # Yes, we have problem
+
+def update_photo(filename, color):
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("UPDATE `photo` SET `color` = '{}' WHERE `filename` = '{}';".format(color, filename))
+        mysql.connection.commit()
+        return filename, None # No problem
+    except Exception as e:
+        print(e)
+        return "", str(e.args[1]) # Yes, we have problem
 
 def get_users():
     try:
