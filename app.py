@@ -30,6 +30,23 @@ def after_request(resp):
     resp.headers['server'] = 'BitirmeServer'
     return resp
 
+@app.route('/v1/combine/<string:username>', methods=["GET"])
+def combine(username):
+    pics, err = MysqlOps.get_user_pics_by_username(username)
+    print(pics)
+    print(err)
+    if err is None:
+        bottoms = [pic for pic in pics if pic["type"] == "alt" ]
+        tops = [pic for pic in pics if pic["type"] == "ust" ]
+        print(bottoms)
+        print(tops)
+        if len(bottoms) > 0 and len(tops) > 0:
+            return jsonify({"status": "okey", "bottom": bottoms[0], "top": tops[0]}), 200
+
+        return jsonify({"status": "okey", "bottom": pics[0], "top": pics[0]}), 200
+
+    return jsonify({"status": "error", "content": str(err.args[1])}), 500
+
 @app.route('/v2/upload_form')
 def upload_file_with_form():
     return render_template('upload_form.html')
@@ -149,7 +166,7 @@ def init_project():
             "email": "anonymus@anonymus",
             "photoname": "efuli.png",
             "color": "blue",
-            "type": "bottom"
+            "type": "alt"
         },
         {
             "username": "tugce123",
@@ -158,7 +175,7 @@ def init_project():
             "email": "tugce@gmail.com",
             "photoname": "tugce.jpg",
             "color": "red",
-            "type": "top"
+            "type": "ust"
         }
     ]
     
