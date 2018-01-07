@@ -102,11 +102,9 @@ def update_pic():
 
     return jsonify({"status": "error", "content": err}), 500
 
-@app.route('/v1/pic', methods=["DELETE"])
-def delete_pic():
-    data = request.get_json()
-    print(data)
-    filename = data['filename']
+@app.route('/v1/pic/<string:filename>', methods=["DELETE"])
+def delete_pic(filename):
+    print(filename)
     result, err = MysqlOps.delete_photo(filename)
     print(result)
     print(err)
