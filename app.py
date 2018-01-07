@@ -92,7 +92,9 @@ def update_pic():
     print(data)
     filename = data['filename']
     color = data['color']
-    filename, err = MysqlOps.update_photo(filename, color)
+    typevalue = data['type']
+    username = data['username']
+    filename, err = MysqlOps.update_photo(username, filename, color, typevalue)
     if err is None:
         return jsonify({"status": "okey", "filename": filename}), 200
 
@@ -132,33 +134,21 @@ def init_project():
             "fullname": "Anonymus",
             "password": "12345",
             "email": "anonymus@anonymus",
-            "photoname": "efuli.png"
+            "photoname": "efuli.png",
+            "color": "blue",
+            "type": "bottom"
         },
         {
             "username": "tugce123",
             "fullname": "Tugce Cetinkaya",
             "password": "12345",
             "email": "tugce@gmail.com",
-            "photoname": "tugce.jpg"
+            "photoname": "tugce.jpg",
+            "color": "red",
+            "type": "top"
         }
     ]
-    """,
-        {
-            "username": "ergin123",
-            "fullname": "Ergin Cetinhafif",
-            "password": "12345",
-            "email": "ergin@gmail.com",
-            "photoname": "efuli.png"
-        },
-        {
-            "username": "anonymus",
-            "fullname": "Anonymus",
-            "password": "12345",
-            "email": "anonymus@anonymus",
-            "photoname": "efuli.png"
-        },
-    """
-
+    
     for user in users:
         result, err = MysqlOps.insert_user(
             user['username'],
@@ -176,6 +166,12 @@ def init_project():
         print(err)
         if err != None:
             return jsonify({"status": "error", "content": str(err.args[1])}), 500
+
+        temp, err = MysqlOps.update_photo(user['username'], filename, user['color'], user['type'])
+        print(temp)
+        print(err)
+        if err != None:
+            return jsonify({"status": "error", "content": err }), 500
 
         with open("uploads/" + user["photoname"], "rb") as file:
             AwsOps.upload_pic_to_s3_bucket(file, filename)
