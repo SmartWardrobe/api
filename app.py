@@ -87,7 +87,7 @@ def get_pic_by_photoname(photoname):
     return "I'm sorry"
 
 @app.route('/v1/pic', methods=["PUT"])
-def update_pic(photoname):
+def update_pic():
     data = request.get_json()
     print(data)
     filename = data['filename']
