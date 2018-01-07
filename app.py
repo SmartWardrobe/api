@@ -37,19 +37,19 @@ def combine(username):
     pics, err = MysqlOps.get_user_pics_by_username(username)
     print(pics)
     print(err)
-    ranbottom = [0,1,2];
-    rantop = [0,1,2];
-    random.shuffle(ranbottom)
-    random.shuffle(rantop)
+    
+    
     if err is None:
         bottoms = [pic for pic in pics if pic["type"] == "alt" ]
         tops = [pic for pic in pics if pic["type"] == "ust" ]
+        random.shuffle(bottoms)
+        random.shuffle(tops)
         print(bottoms)
         print(tops)
         if len(bottoms) > 0 and len(tops) > 0:
-            return jsonify({"status": "okey", "bottom": bottoms[ranbottom], "top": tops[rantop]}), 200
+            return jsonify({"status": "okey", "bottom": bottoms[0], "top": tops[0]}), 200
 
-        return jsonify({"status": "okey", "bottom": pics[ranbottom], "top": pics[rantop]}), 200
+        return jsonify({"status": "okey", "bottom": pics[0], "top": pics[0]}), 200
 
     return jsonify({"status": "error", "content": str(err.args[1])}), 500
 
