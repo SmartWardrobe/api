@@ -4,13 +4,6 @@ from flask_mysqldb import MySQL
 
 mysql = MySQL()
 
-"""
-insert_sql = [
-    "INSERT INTO `user` (username, fullname, password,email) VALUES('tugce123', 'Tugce Cetinkaya'  ,'12345','tugce@gmail.com');",
-    "INSERT INTO `user` (username, fullname, password,email) VALUES('ergin123', 'Ergin Cetinhafif' ,'12345','ergin@gmail.com');",
-    "INSERT INTO `user` (username, fullname, password,email) VALUES('ceo123'  , 'Ceo Cetin'        ,'12345','ceo@gmail.com');",
-]
-"""
 def init(app):
     """
         mysql bilgilerini .env uzantili dosyanini icine yerlestiriyoruz.
@@ -93,7 +86,7 @@ def update_photo(username, filename, color, typevalue):
         cur = mysql.connection.cursor()
         cur.execute("UPDATE `photo` SET `color` = '{}', `type` = '{}', `username` = '{}' WHERE `filename` = '{}';".format(color, typevalue, username, filename))
         mysql.connection.commit()
-        return filename, None # No problem
+        return get_user_pics_by_username(username)
     except Exception as e:
         print(e)
         return "", str(e.args[1]) # Yes, we have problem
