@@ -235,6 +235,7 @@ def get_users():
 def login():
     # curl -H "Content-Type: application/json" -X POST -d '{"email":"tug@gmail.com","password":"12345"}' http://localhost:5000/v1/login
     data = request.get_json()
+    print(data)
     user_info, err = MysqlOps.login(data["email"], data["password"])
     print(user_info)
     print(err)
@@ -261,6 +262,7 @@ def get_user_pics_list(username):
         read mysql, then learn filenames
         return filename list
     """
+    print(username)
     pics, err = MysqlOps.get_user_pics_by_username(username)
     print(pics)
     if err is None:
