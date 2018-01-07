@@ -49,6 +49,7 @@ def create_tables():
     `date` varchar(100) NOT NULL,
     `filename` varchar(100) NOT NULL,
     `color` varchar(15),
+    `type` varchar(15),
     PRIMARY KEY (`photoid`),
     FOREIGN KEY (username) REFERENCES user(username) ON DELETE CASCADE
     ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
@@ -87,10 +88,10 @@ def insert_photo(username, realphotoname):
         print(e)
         return "", e    # Yes, we have problem
 
-def update_photo(filename, color):
+def update_photo(username, filename, color, typevalue):
     try:
         cur = mysql.connection.cursor()
-        cur.execute("UPDATE `photo` SET `color` = '{}' WHERE `filename` = '{}';".format(color, filename))
+        cur.execute("UPDATE `photo` SET `color` = '{}', `type` = '{}', `username` = '{}' WHERE `filename` = '{}';".format(color, typevalue, username, filename))
         mysql.connection.commit()
         return filename, None # No problem
     except Exception as e:
