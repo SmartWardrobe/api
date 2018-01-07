@@ -4,8 +4,7 @@
 import pprint
 import os
 import requests
-import random 
-from random import shuffle
+import random
 from flask import Flask, request, jsonify, render_template, redirect, send_from_directory
 from werkzeug.utils import secure_filename
 from dotenv import load_dotenv, find_dotenv
@@ -34,14 +33,13 @@ def after_request(resp):
 
 @app.route('/v1/combine/<string:username>', methods=["GET"])
 def combine(username):
+    print(username)
     pics, err = MysqlOps.get_user_pics_by_username(username)
     print(pics)
     print(err)
-    
-    
     if err is None:
-        bottoms = [pic for pic in pics if pic["type"] == "alt" ]
-        tops = [pic for pic in pics if pic["type"] == "ust" ]
+        bottoms = [ pic for pic in pics if pic["type"] == "alt" ]
+        tops = [ pic for pic in pics if pic["type"] == "ust" ]
         random.shuffle(bottoms)
         random.shuffle(tops)
         print(bottoms)
