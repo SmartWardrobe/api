@@ -94,9 +94,9 @@ def update_pic():
     color = data['color']
     typevalue = data['type']
     username = data['username']
-    filename, err = MysqlOps.update_photo(username, filename, color, typevalue)
+    pics, err = MysqlOps.update_photo(username, filename, color, typevalue)
     if err is None:
-        return jsonify({"status": "okey", "filename": filename}), 200
+        return jsonify({"status": "okey", "pics": pics}), 200
 
     return jsonify({"status": "error", "content": err}), 500
 
@@ -167,8 +167,8 @@ def init_project():
         if err != None:
             return jsonify({"status": "error", "content": str(err.args[1])}), 500
 
-        temp, err = MysqlOps.update_photo(user['username'], filename, user['color'], user['type'])
-        print(temp)
+        pics, err = MysqlOps.update_photo(user['username'], filename, user['color'], user['type'])
+        print(pics)
         print(err)
         if err != None:
             return jsonify({"status": "error", "content": err }), 500
