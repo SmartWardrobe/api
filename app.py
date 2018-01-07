@@ -95,6 +95,8 @@ def update_pic():
     typevalue = data['type']
     username = data['username']
     pics, err = MysqlOps.update_photo(username, filename, color, typevalue)
+    print(pics)
+    print(err)
     if err is None:
         return jsonify({"status": "okey", "pics": pics}), 200
 
