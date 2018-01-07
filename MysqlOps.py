@@ -158,8 +158,16 @@ def delete_user_by_username(username):
 def get_user_pics_by_username(username):
     try:
         cur = mysql.connection.cursor()
-        cur.execute("SELECT `filename` FROM `photo` WHERE `username`='{0}'".format(username))
-        pics = cur.fetchall()
+        cur.execute("SELECT `filename`, `color`, `type` FROM `photo` WHERE `username`='{0}'".format(username))
+        temppics = cur.fetchall()
+        pics = []
+        for pic in temppics:
+            picnewobj = {}
+            picnewobj['filename'] = pic[0]
+            picnewobj['color'] = pic[1]
+            picnewobj['type'] = pic[2]
+            pics.append(picnewobj)
+
         return pics, None # No problem
     except Exception as e:
         print(e)
