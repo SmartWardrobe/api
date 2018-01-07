@@ -91,6 +91,16 @@ def update_photo(username, filename, color, typevalue):
         print(e)
         return "", str(e.args[1]) # Yes, we have problem
 
+def delete_photo(filename):
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("DELETE FROM `photo` WHERE `filename`='{0}'".format(filename))
+        mysql.connection.commit()
+        return "", None
+    except Exception as e:
+        print(e)
+        return "", str(e.args[1]) # Yes, we have problem
+
 def get_users():
     try:
         cur = mysql.connection.cursor()
