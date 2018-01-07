@@ -102,6 +102,19 @@ def update_pic():
 
     return jsonify({"status": "error", "content": err}), 500
 
+@app.route('/v1/pic', methods=["DELETE"])
+def delete_pic():
+    data = request.get_json()
+    print(data)
+    filename = data['filename']
+    result, err = MysqlOps.delete_photo(filename)
+    print(result)
+    print(err)
+    if err is None:
+        return jsonify({"status": "okey", "content": "Okey, deleted photo."}), 200
+
+    return jsonify({"status": "error", "content": err}), 500
+
 @app.route('/')
 def index():
     return jsonify({"status": "okey", "content": "Shut up, bitch!"}), 200
