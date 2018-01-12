@@ -342,5 +342,9 @@ def temperature(city):
     else:
         return jsonify({"status": "error", "content": "Api'de sorun var!"}), 400
 
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({'HTTP 404 Error': 'The content you looks for does not exist. Please check your request.'}), 404
+
 if __name__ == "__main__":
     app.run()
