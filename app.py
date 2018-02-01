@@ -136,7 +136,7 @@ def delete_pic(filename):
 
 @app.route('/')
 def index():
-    return jsonify({"status": "okey", "content": "Shut up, bitch!"}), 200
+    return jsonify({"status": "okey", "content": "Api Sayfasında"}), 200
 
 @app.route("/v1/pingpongjson", methods=["POST"])
 def pingpongjson():
@@ -151,7 +151,7 @@ def hello():
     print(data)
     print(err)
     if err is None:
-        return jsonify({"status": "okey", "content": "Ayaktayim, yikilmadim. " + str(data)}), 200
+        return jsonify({"status": "okey", "content": "Çalışıyor" + str(data)}), 200
 
     return jsonify({"status": "error", "content": str(err.args[1])}), 500
 
@@ -321,7 +321,7 @@ def delete_user(username):
     print(result)
     print(err)
     if err is None:
-        return jsonify({"status": "okey", "content": "fuck off"}), 200
+        return jsonify({"status": "okey", "content": "Başarılı"}), 200
 
     return jsonify({"status": "error", "content": str(err.args[1])}), 500
 
