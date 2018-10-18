@@ -1,13 +1,5 @@
-# api-flask ![Heroku](https://heroku-badge.herokuapp.com/?app=gardrop-api)
+# SmartWardrobe-api ![Heroku](https://heroku-badge.herokuapp.com/?app=gardrop-api)
 Flask ile yazilan Api(Web service). Suan api heroku da calisiyor. Local'e kurmaya gerek yok.Heroku'ya pushlamaya da gerek yok. Otomatik master branch'i herokuya pushlaniyor.
-
-# Gardop Uygulamasinin Repolari
-
-Projenin Ionic reposu: https://github.com/erginipekci7/Gardrop-Ionic
-
-Projenin Api reposi: https://github.com/erginipekci7/api-flask
-
-Projenin Api Test reposu : https://github.com/erginipekci7/api-flask-test
 
 # Proje Dokumani
 <h4>Burasi guncellenmeli. Detayli bir sekilde proje anlatilmali.</h4>
@@ -56,7 +48,7 @@ Projenin Api Test reposu : https://github.com/erginipekci7/api-flask-test
 
 ```bash
  $ sudo apt-get install libmysqlclient-dev  # for mysql connection for ubuntu
- $ git clone https://github.com/erginipekci7/api-flask  # First download repo
+ $ git clone https://github.com/SmartWardrobe/api  # First download repo
  $ cd api-flask                               # changed active directory to repo
  $ virtualenv venv                            # create virtual enviroment
  $ source venv/bin/activate                   # actived virtual environment
